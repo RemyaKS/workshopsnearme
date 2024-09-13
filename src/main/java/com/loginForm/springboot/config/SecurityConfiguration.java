@@ -15,50 +15,48 @@ import com.loginForm.springboot.service.UserService;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private UserService userService;
-	//encode the password
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		
-		return new BCryptPasswordEncoder();
-	}
-	
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-		auth.setUserDetailsService(userService);
-		auth.setPasswordEncoder(passwordEncoder());
-		return auth;
-	}
-	
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-		auth.authenticationProvider(authenticationProvider());
-	}
-	//This method include all spring security configuration method such as
-	//static url
-	@Override
-	protected void configure(HttpSecurity http) throws Exception{
-		//configure URL
-		http.authorizeRequests().antMatchers(
-				"/registration**",
-				"/js/**",
-				"/css/**",
-				"/img/**").permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.formLogin()
-				.loginPage("/login")
-				.permitAll()
-				.and()
-				.logout()
-				.invalidateHttpSession(true)
-				.clearAuthentication(true)
-				.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-				.logoutSuccessUrl("/login?logout")
-				.permitAll();
-	}
+    @Autowired
+    private UserService userService;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
+        auth.setUserDetailsService(userService);
+        auth.setPasswordEncoder(passwordEncoder());
+        return auth;
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Override
+  
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers( "/workshopowners**","/js/**", "/css/**", "/img/**","/user-details/**","/registration/**","/adminlogin/**","/admin/**","/showRequests/**","/editBooking/{id}/**","/add-user/**","/users/**","/edit-user/{id}/**","/confirmBooking","/booking/{id}").permitAll() // Allow access to index.html without login
+                .antMatchers("/booking/**").authenticated() // Require login for booking page
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+            .logout()
+                .invalidateHttpSession(true) 	
+                .clearAuthentication(true)
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl("/login?logout")
+                .permitAll();
+        
+    }
 }

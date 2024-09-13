@@ -1,0 +1,2891 @@
+
+      <!-- basic -->
+      <!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="./style.css">
+    <meta charset="utf-8">
+    <title>WorkShops Near me</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <link rel="icon" type="image/x-icon" href="/img/1234.svg" >
+    <!-- Favicon --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet"> 
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="" th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="" th:href="@{css/style.css}" rel="stylesheet">
+	<script>
+	let coordinates = null;
+
+	function getLocation() {
+	  if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition(showPosition);
+	  } else {
+	    document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+	  }
+	}
+
+	function showPosition(position) {
+	  coordinates = {
+	    latitude: position.coords.latitude,
+	    longitude: position.coords.longitude
+	  };
+	  displayLocation();
+	}
+
+	function displayLocation() {
+	  if (coordinates) {
+	    const lat = coordinates.latitude;
+	    const lon = coordinates.longitude;
+	    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&accept-language=en`;
+
+	    fetch(url)
+	      .then(response => response.json())
+	      .then(data => {
+	        document.getElementById("demo").innerHTML = ` ${data.display_name}`;
+	      })
+	      .catch(error => {
+	        document.getElementById("demo").innerHTML = `Error: ${error}`;
+	      });
+	  }
+	}
+	</script>
+	
+	
+    <style>
+		.hidden {
+		          display: none;
+		      }
+		.location-symbol {
+		    font-size: 24px;
+		    cursor: pointer;
+		    color: crimson;
+			
+			
+		  }
+		
+        /********** Template CSS **********/
+		.success-message {
+		         display: none;
+		         color: green;
+		         margin-top: 10px;
+		     }
+        /*register*/
+.wrapper1{
+    width: 380px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+  position:fixed;
+  top:14%;
+  left:70%;
+  display: none;
+    
+}
+/*login*/
+.wrapper{
+  width: 380px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+  position:fixed;
+  top:28%;
+  left:70%;
+ 
+}
+.wrapper .title{
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 100px;
+  color: #fff;
+  user-select: none;
+  border-radius: 15px 15px 0 0;
+  background: linear-gradient(-135deg, #a80808a1, #ff0000);
+}
+.wrapper1 .title{
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 100px;
+    color: #fff;
+    user-select: none;
+    border-radius: 15px 15px 0 0;
+    background: linear-gradient(-135deg, #a80808a1, #ff0000);
+  }
+  .wrapper1 form{
+    padding: 10px 30px 50px 30px;
+  }
+.wrapper form{
+  padding: 10px 30px 50px 30px;
+}
+.wrapper form .field{
+  height: 50px;
+  width: 100%;
+  margin-top: 20px;
+  position: relative;
+}
+.wrapper1 form .field{
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+  }
+.wrapper form .field input{
+  height: 100%;
+  width: 100%;
+  outline: none;
+  font-size: 17px;
+  padding-left: 20px;
+  border: 1px solid lightgrey;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+.wrapper1 form .field input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    font-size: 17px;
+    padding-left: 20px;
+    border: 1px solid lightgrey;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+  }
+.wrapper form .field input:focus,
+form .field input:valid{
+  border-color: #4158d0;
+}
+.wrapper1 form .field input:focus,
+form .field input:valid{
+  border-color: #4158d0;
+}
+.wrapper form .field label{
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  color: #999999;
+  font-weight: 400;
+  font-size: 17px;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+.wrapper1 form .field label{
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    color: #999999;
+    font-weight: 400;
+    font-size: 17px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+  }
+form .field input:focus ~ label,
+form .field input:valid ~ label{
+  top: 0%;
+  font-size: 16px;
+  color: #4158d0;
+  background: #fff;
+  transform: translateY(-50%);
+}
+
+
+
+
+form .field input[type="submit"]{
+  color: #fff;
+  border: none;
+  padding-left: 0;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background: linear-gradient(-135deg, #a80808a1, #ff0000);
+  transition: all 0.3s ease;
+}
+form .field input[type="submit"]:active{
+  transform: scale(0.95);
+}
+form .signup-link{
+  color: #262626;
+  margin-top: 20px;
+  text-align: center;
+}
+form .pass-link a,
+form .signup-link a{
+  color: #970202;
+  text-decoration: none;
+}
+form .pass-link a:hover,
+form .signup-link a:hover{
+  text-decoration: underline;
+}
+/*login button*/
+p.close-btn {
+  position: absolute;
+  top: 0px;
+  right: 10px;
+ 
+  
+  
+
+
+border: none;
+  cursor: pointer;
+ 
+
+  
+} 
+:root {
+    --primary: #F56582;
+    --secondary: #0B2154;
+    --light: #F2F2F2;
+    --dark: #111111;
+}
+
+.fw-medium {
+    font-weight: 600 !important;
+}
+
+.back-to-top {
+    position: fixed;
+    display: none;
+    left: 30px;
+    bottom:50px;
+     z-index: 99; 
+}
+
+
+ 
+
+
+/*** Button ***/
+.btn {
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: .5s;
+}
+
+.btn.btn-primary,
+.btn.btn-secondary {
+    color: #FFFFFF;
+}
+
+.btn-square {
+    width: 38px;
+    height: 38px;
+    
+}
+
+.btn-sm-square {
+    width: 32px;
+    height: 32px;
+}
+
+.btn-lg-square {
+    width: 48px;
+    height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: normal;
+    border-radius: 2px;
+}
+
+
+/*** Navbar ***/
+.navbar .dropdown-toggle::after {
+    border: none;
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    vertical-align: middle;
+    margin-left: 8px;
+    position:fixed;
+    top:0;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    margin-right: 30px;
+    padding: 15px 0;
+    color: #FFFFFF;
+    font-size: 15px;
+    text-transform: uppercase;
+    outline: none;
+}
+nav{
+    position:fixed;
+    top:0;
+	
+}
+
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--primary);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-light .navbar-nav .nav-link  {
+        margin-right: 0;
+        padding: 10px 0;
+    }
+
+    .navbar-light .navbar-nav {
+        border-top: 1px solid #EEEEEE;
+    }
+}
+
+.navbar-light .navbar-brand,
+.navbar-light a.btn {
+    height: 75px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.navbar-light.sticky-top {
+    top: -100px;
+    transition: .5s;
+}
+
+@media (min-width: 992px) {
+    .navbar .nav-item .dropdown-menu {
+        display: block;
+        border: none;
+        margin-top: 0;
+        top: 150%;
+        opacity: 0;
+        visibility: hidden;
+        transition: .5s;
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        top: 100%;
+        visibility: visible;
+        transition: .5s;
+        opacity: 1;
+    }
+}
+
+/*** Start Testimonials ***/
+
+/*** End Testimonials ***/
+
+
+
+/*** Header ***/
+.carousel-caption {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .7);
+     z-index: 1; 
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+}
+
+@media (max-width: 768px) {
+    #header-carousel .carousel-item {
+        position: relative;
+        min-height: 450px;
+    }
+    
+    #header-carousel .carousel-item img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.page-header {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.page-header-inner {
+    background: rgba(0, 0, 0, .7);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--light);
+}
+
+
+/*** Facts ***/
+.fact {
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/carousel-bg-1.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+/*** Service ***/
+.service .nav .nav-link {
+    background: var(--light);
+    transition: .5s;
+}
+
+.service .nav .nav-link.active {
+    background: var(--primary);
+}
+
+.service .nav .nav-link.active h4 {
+    color: #FFFFFF !important;
+}
+
+
+/*** Booking ***/
+.booking {
+    background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .7)), url(../img/carousel-bg-2.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+.bootstrap-datetimepicker-widget.bottom {
+    top: auto !important;
+}
+
+.bootstrap-datetimepicker-widget .table * {
+    border-bottom-width: 0px;
+}
+
+.bootstrap-datetimepicker-widget .table th {
+    font-weight: 500;
+}
+
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+.bootstrap-datetimepicker-widget table td.active,
+.bootstrap-datetimepicker-widget table td.active:hover {
+    background: var(--primary);
+}
+
+.bootstrap-datetimepicker-widget table td.today::before {
+    border-bottom-color: var(--primary);
+}
+
+
+/*** Team ***/
+.team-item .team-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    transform: scale(0);
+    transition: .5s;
+}
+
+.team-item:hover .team-overlay {
+    transform: scale(1);
+}
+
+.team-item .team-overlay .btn {
+    color: var(--primary);
+    /* background: #FFFFFF; */
+}
+
+.team-item .team-overlay .btn:hover {
+    color: #FFFFFF;
+    background: var(--secondary)
+}
+
+
+.footer {
+    background: linear-gradient(rgba(0, 0, 0, .9), rgba(0, 0, 0, .9)), url(https://www.shutterstock.com/image-photo/adult-man-blue-colored-uniform-600nw-2282240017.jpg) center center no-repeat;
+    background-size: cover;
+}
+
+.footer .btn.btn-social {
+    margin-right: 5px;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--light);
+    border: 1px solid #FFFFFF;
+    border-radius: 35px;
+    transition: .3s;
+}
+
+.footer .btn.btn-social:hover {
+    color: var(--primary);
+}
+
+.footer .btn.btn-link {
+    display: block;
+    margin-bottom: 5px;
+    padding: 0;
+    text-align: left;
+    color: #FFFFFF;
+    font-size: 15px;
+    font-weight: normal;
+    text-transform: capitalize;
+    transition: .3s;
+}
+
+.footer .btn.btn-link::before {
+    position: relative;
+    content: "\f105";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    margin-right: 10px;
+}
+
+.footer .btn.btn-link:hover {
+    letter-spacing: 1px;
+    box-shadow: none;
+}
+
+.footer .copyright {
+    padding: 25px 0;
+    font-size: 15px;
+    border-top: 1px solid rgba(256, 256, 256, .1);
+}
+
+.footer .copyright a {
+    color: var(--light);
+}
+
+.footer .footer-menu a {
+    margin-right: 15px;
+    padding-right: 15px;
+    border-right: 1px solid rgba(255, 255, 255, .3);
+}
+
+.footer .footer-menu a:last-child {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: none;
+}
+
+/* feedback form style*/
+.form-popup {
+     display: none;
+     position: fixed;
+     bottom: 0;
+     right: 15px;
+     border: 1px solid #ccc;
+     background-color: #f1f1f1;
+     padding: 15px;
+     max-width: 300px;
+   }
+   
+   .animate-charcter
+   {
+     
+     background-image: linear-gradient(
+       -225deg,
+       
+       white 29%,
+       crimson 67%
+     );
+     background-size: auto auto;
+     background-clip: border-box;
+     background-size: 200% auto;
+     color: #fff;
+     background-clip: text;
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     animation: textclip 5s linear infinite;
+    margin-left: 45px;
+        text-align: left;
+		font-size: 50px;
+   }
+
+   @keyframes textclip {
+     to {
+       background-position: 200% center;
+     }
+   }
+   
+   
+   .box {
+       display: none; /* Change to block or another display value if you want it to be visible */
+       width: 250px;
+       padding: 15px;
+       border: 1px solid #ccc;
+       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+       margin-top: 10px;
+       position: fixed;
+       top: 100px;
+       right: 20px;
+       z-index: 9999; /* Adjust this value to ensure it's higher than other elements */
+   }
+
+           .close-btn {
+               margin-top: 10px;
+			   position: fixed;
+			   top:119px;
+			   right: 50px;
+           }
+		   .firstheading{
+			font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		   }
+		 
+		   /* Search style*/
+		   .search-wrapper {
+		              position: relative;
+		              width: 300px;
+					  
+		          }
+				  .search-wrapper:focus{
+					border:1px solid red;
+				  }
+
+		          /* Style for the search bar */
+		          #searchBar {
+		             border: none;
+					 width: 65%;
+					 outline: 0;
+					  
+		          }
+				  .search-wrapper{
+					width: 18%;
+							              padding: 10px 20px 10px 40px;
+							              font-size: 16px;
+							              transition: all 0.3s ease-in-out;
+										 
+							             border:1px solid crimson;
+										 border-radius: 25px;
+				  }
+
+		          /* Placeholder text style */
+				  
+		          #searchBar::placeholder {
+		              color: #aaa;
+		              opacity: 1;
+		          }
+
+		          /* Search icon style */
+		          .search-icon {
+		              position: absolute;
+		              left: 10px;
+		              top: 50%;
+		              transform: translateY(-50%);
+		              font-size: 18px;
+		              color: #888;
+		          }
+				  .suggestions {
+				              border: 1px solid #ccc;
+				              border-top: none;
+				              position: absolute;
+				              width: 100%;
+				              max-height: 150px;
+				              overflow-y: auto;
+				              background-color: #fff;
+				              z-index: 1;
+				          }
+
+				          .suggestion-item {
+				              padding: 10px;
+				              cursor: pointer;
+				          }
+
+				          .suggestion-item:hover {
+				              background-color: #f0f0f0;
+				          }
+						     .blinking {
+						      color: red;
+						      font-weight: bold;
+						      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adds font shadow */
+						      animation: blink-animation 1s infinite alternate; /* Blinking effect */
+						  }
+
+						  @keyframes blink-animation {
+						      0% {
+						          opacity: 1;
+						      }
+						      50% {
+						          opacity: 0.5;
+						         
+						      }
+						      100% {
+						          opacity: 1;
+						          
+						        
+						      }
+						  }
+						  .button-group {
+						      text-align: left; /* Align buttons to the left under the paragraph */
+							  margin-left:45px;
+						  }
+
+						  .overlay-button {
+						            position: absolute;
+						            bottom: 20px; /* Adjust as needed */
+						            left: 50%;
+						            transform: translateX(-50%);
+						            z-index: 10; /* Ensures button is above the image */
+						        } 
+								.voice-search-button {
+								           margin-left: 25%;
+								           cursor: pointer;
+								       }
+    </style>
+	<!--searchbar-->
+	
+	
+</head>
+<script>
+  window.watsonAssistantChatOptions = {
+    integrationID: "5299c7b6-e581-488c-b4dc-2f54b74dc866", // The ID of this integration.
+    region: "au-syd", // The region your integration is hosted in.
+    serviceInstanceID: "e73d4655-cb3b-41d2-bd37-bc7c399d424e", // The ID of your service instance.
+    onLoad: async (instance) => { await instance.render(); }
+  };
+  setTimeout(function(){
+    const t=document.createElement('script');
+    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+    document.head.appendChild(t);
+  });
+</script>
+
+<body>
+	
+	<!--<div class="container-fluid px-0" style="background-color: black;position:fixed;top:0;" id="navbar">
+
+	    <div class="row g-0 d-none d-lg-flex">
+
+	        Left side with social media links 
+	        <div class="col-lg-6 ps-5 text-start">
+
+	            <div class="h-100 d-inline-flex align-items-center text-white">
+
+	                <span>Follow Us:</span>
+
+	                <a class="btn btn-link text-light" href="#"><i class="fab fa-facebook-f"></i></a>
+
+	                <a class="btn btn-link text-light" href="#"><i class="fab fa-twitter"></i></a>
+
+	                <a class="btn btn-link text-light" href="#"><i class="fab fa-linkedin-in"></i></a>
+
+	                <a class="btn btn-link text-light" href="#"><i class="fab fa-instagram"></i></a>
+
+	                <a class="btn btn-link text-light" th:href="@{https://www.google.com/maps/@8.5762071,76.8606208,13z?authuser=0&entry=ttu}"><i class="fas fa-map-marker-alt"></i></a>
+
+	            </div>
+
+	        </div>
+
+	        -->
+
+	        <!-- Right side with admin icon 
+
+	        <div class="col-lg-6 pe-5 text-end">
+
+	            <div class="h-100 d-inline-flex align-items-center text-white">
+
+	               <a class="btn btn-link text-light" th:href="@{/admin/login}"><i class="fas fa-user-cog"></i></a>  Admin icon 
+
+	            </div>
+
+	        </div>
+
+	    </div>
+
+	</div>-->
+	
+	<style>
+		.body {
+		    font-family: Arial, sans-serif;
+		 
+		    margin: 0;
+		    padding: 0;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    
+		}
+
+		.profile-container {
+			position: fixed;
+			top:15%;
+			left: 70%;
+		    background-color: white;
+		    border-radius: 8px;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		    width: 350px;
+		    padding: 20px;
+		    text-align: center;
+			z-index: 9999;
+		}
+
+		.profile-pic {
+		    width: 100px;
+		    height: 100px;
+		    border-radius: 50%;
+		    margin-bottom: 15px;
+		}
+
+		.profile-name {
+		    font-size: 24px;
+		    color: #333;
+		    margin-bottom: 10px;
+		}
+
+		.profile-bio {
+		    font-size: 16px;
+		    color: #777;
+		    margin-bottom: 20px;
+		}
+
+		.profile-content h2 {
+		    font-size: 20px;
+		    color: #333;
+		    margin-bottom: 10px;
+		}
+
+		.profile-content p {
+		    font-size: 14px;
+		    color: #555;
+		    margin-bottom: 20px;
+		}
+
+		.skills-list {
+		    list-style-type: none;
+		    padding: 0;
+		}
+
+		.skills-list li {
+		    font-size: 14px;
+		    color: #555;
+		    margin-bottom: 5px;
+		}
+
+		.social-media a {
+		    font-size: 16px;
+		    color: #007bff;
+		    text-decoration: none;
+		    margin: 0 10px;
+		    transition: color 0.3s;
+		}
+
+		.social-media a:hover {
+		    color: #0056b3;
+		}
+		.form-container {
+		    
+		   
+		    z-index: 2;
+		    
+		
+		    background-color: white;
+		    padding: 20px;
+		    border-radius: 10px;
+		    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+			
+		}
+
+		.callback-form {
+		    display: flex;
+		    flex-direction: column;
+		}
+
+		.form-header {
+		    display: flex;
+		    align-items: center;
+		    margin-bottom: 30px;
+		}
+
+		.logo {
+		    margin-right: 15px;
+		}
+
+		.triangle {
+		    width: 25px;
+		    height: 25px;
+		    background-color: crimson;
+		    clip-path: polygon(0% 0%, 100% 0%, 0% 100%);
+		}
+
+		h2 {
+		    font-size: 28px;
+		    font-weight: bold;
+		    color: #333;
+		    margin: 0;
+		}
+
+		.form-group {
+		    display: flex;
+		    justify-content: space-between;
+		    gap: 30px;
+		    margin-bottom: 20px;
+		}
+
+		.form-group input {
+		    flex: 1;
+		    padding: 10px 0;
+		    border: none;
+		    border-bottom: 2px solid #ddd;
+		    font-size: 18px;
+		    outline: none;
+		    transition: border-color 0.3s ease;
+		}
+
+		.form-group input:focus {
+		    border-bottom: 2px solid #c00000;
+		}
+
+		.submit-btn {
+		    background-color: crimson;
+		    color: #fff;
+		    border: none;
+		    padding: 15px;
+		    font-size: 18px;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease;
+		}
+
+		.submit-btn:hover {
+		    background-color: #a00000;
+		}
+		
+		.booklink{
+			transition: border-bottom 0.3s ease;
+		}
+		.booklink:hover{
+			
+			border-bottom: 1px solid white;
+		}
+		/*how it booking works*/
+		.how-it-works {
+		                    text-align: center;
+		                    padding: 50px 0;
+		                    background: url('background-image.jpg') no-repeat center center/cover;
+		                    color: #fff;
+		                }
+
+		                .how-it-works h1 {
+		                    font-size: 36px;
+		                    margin-bottom: 10px;
+		                }
+
+		                .how-it-works p {
+		                    font-size: 18px;
+		                    margin-bottom: 40px;
+		                }
+
+		                .steps {
+		                    display: flex;
+		                    justify-content: space-around;
+		                    flex-wrap: wrap;
+		                }
+
+		                .step {
+		                    background-color: darkred;
+		                    padding: 20px;
+		                    margin: 10px;
+		                    width: 200px;
+		                    border-radius: 5px;
+		                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+		                    transition: transform 0.3s;
+		                }
+
+		                .step:hover {
+		                    transform: translateY(-10px);
+		                }
+
+		                .step h2 {
+		                    font-size: 48px;
+		                    margin-bottom: 10px;
+		                    color: #fff;
+		                }
+
+		                .step h3 {
+		                    font-size: 24px;
+		                    margin-bottom: 10px;
+		                    color: #fff;
+		                }
+
+		                .step p {
+		                    font-size: 16px;
+		                    color: #ccc;
+		                }
+
+		                @media (max-width: 768px) {
+		                    .steps {
+		                        flex-direction: column;
+		                        align-items: center;
+		                    }
+
+		                    .step {
+		                        width: 80%;
+		                    }
+		                }
+						
+						div#google_translate_element{
+							font-size: 130px;
+							color: red;
+						}
+						/* Example to style the Google Translate dropdown */
+						.goog-te-gadget-simple {
+						    background-color: rgb(128, 255, 128) !important;
+						    border: 1px solid rgb(255, 0, 0) !important;
+						    border-radius: 5px !important;
+						}
+
+						.goog-te-combo {
+						   background-color: transparent !important;
+						    color: rgb(255, 255, 255) !important;
+						    font-size: 16px !important;
+						    border: 2px solid crimson !important;
+						    border-radius: 5px !important;
+							padding:5px;
+						}
+	</style>
+	<!--profile-->
+	<div class="body">
+		<!--
+		
+		<!--profile container
+		<div class="profile-container" >
+			        <div class="profile-header">
+			 
+			            <h1 class="profile-name">John Doe</h1>
+			            <p class="profile-bio">Web Developer | Tech Enthusiast | Blogger</p>
+			        </div>
+			        <div class="profile-content">
+			            <h2>About Me</h2>
+			            <p>Hello! I'm John Doe, a passionate web developer with experience in creating dynamic and user-friendly websites. I love exploring new technologies and sharing my knowledge through my blog.</p>
+			            
+			            <h2>Skills</h2>
+			            <ul class="skills-list">
+			                <li>HTML/CSS</li>
+			                <li>JavaScript</li>
+			                <li>React</li>
+			                <li>Node.js</li>
+			                <li>Python</li>
+			            </ul>
+			            
+			            <h2>Social Media</h2>
+			            <div class="social-media">
+			                <a href="https://twitter.com/" target="_blank">Twitter</a>
+			                <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+			                <a href="https://github.com/" target="_blank">GitHub</a>
+			            </div>
+			        </div>
+			    </div>-->
+	</div>
+<!--Request for a call form-->
+	
+
+		
+		<div class="modal fade" id="hintsModal" tabindex="-1" aria-labelledby="hintsModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+				<div class="form-container" id="myModal">
+							
+
+							<i class="fa fa-close close-btns text-danger" style="font-size: 20px;" onclick="closeForm()" data-bs-dismiss="modal" aria-label="Close"></i>
+							<form class="callback-form" method="POST" th:action="@{/submitForm}">
+							    <div class="form-header">
+							        <div class="logo">
+							            <div class="triangle"></div>
+							        </div>
+							        <h2>Request A Call Back</h2>
+							    </div>
+
+							    <div class="form-group">
+							        <input type="text" placeholder="Name" name="firstName" required>
+							    </div>
+
+							    <div class="dropdown-container">
+							        <div class="form-group">
+							            <input type="text" id="vehicle-details" placeholder="Vehicle Services" name="vehicleDetails" autocomplete="off" required>
+							        </div>
+							        <div class="services-dropdown" id="services-dropdown"></div>
+							    </div>
+
+							    <div class="form-group">
+							        <input type="tel" placeholder="Mobile Phone" name="mobilePhone" required minlength="10">
+							    </div>
+
+							    <div class="form-group">
+							        <input type="email" placeholder="Email ID" name="emailId" required> <!-- New email field -->
+							    </div>
+
+							    <button type="submit" class="submit-btn">Submit</button>
+							</form>
+						</div>
+		    </div>
+		  </div>
+		</div>
+		
+		<script>
+		        const services = [
+		            "Vehicle Wash",
+		            "Engine Services",
+		            "Auto-Mobile Service",
+		            "Vehicle Service",
+		            "Tyre Replacement",
+		            "Oil Changing"
+		        ];
+
+		        const vehicleInput = document.getElementById('vehicle-details');
+		        const dropdown = document.getElementById('services-dropdown');
+
+		        vehicleInput.addEventListener('input', function() {
+		            const inputValue = vehicleInput.value.toLowerCase();
+		            dropdown.innerHTML = '';
+		            if (inputValue) {
+		                const filteredServices = services.filter(service =>
+		                    service.toLowerCase().includes(inputValue)
+		                );
+		                filteredServices.forEach(service => {
+		                    const serviceItem = document.createElement('div');
+		                    serviceItem.textContent = service;
+		                    serviceItem.addEventListener('click', function() {
+		                        vehicleInput.value = service;
+		                        dropdown.style.display = 'none';
+		                    });
+		                    dropdown.appendChild(serviceItem);
+		                });
+		                dropdown.style.display = filteredServices.length ? 'block' : 'none';
+		            } else {
+		                dropdown.style.display = 'none';
+		            }
+		        });
+
+		        document.addEventListener('click', function(e) {
+		            if (!vehicleInput.contains(e.target) && !dropdown.contains(e.target)) {
+		                dropdown.style.display = 'none';
+		            }
+		        });
+
+		        vehicleInput.addEventListener('focus', function() {
+		            const inputValue = vehicleInput.value.toLowerCase();
+		            if (inputValue) {
+		                const filteredServices = services.filter(service =>
+		                    service.toLowerCase().includes(inputValue)
+		                );
+		                dropdown.innerHTML = '';
+		                filteredServices.forEach(service => {
+		                    const serviceItem = document.createElement('div');
+		                    serviceItem.textContent = service;
+		                    serviceItem.addEventListener('click', function() {
+		                        vehicleInput.value = service;
+		                        dropdown.style.display = 'none';
+		                    });
+		                    dropdown.appendChild(serviceItem);
+		                });
+		                dropdown.style.display = filteredServices.length ? 'block' : 'none';
+		            }
+		        });
+		    </script>
+	<!-- Navbar Start -->
+	<nav class="navbar  navbar-expand-lg bg-white navbar-light shadow sticky-top p-0" style="position: fixed; top: 0; width: 100%;">
+	    <a href="" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+	        <img class="w-100" src="" th:src ="@{img/log.gif}" alt="Image" style="width: 2.5cm;height: 2.5cm; border-radius: 50%;">
+	        <h2 class="m-0 text-primary firstheading">WorkShops Near Me</h2>
+	    </a>
+
+	    <!-- search		<i class="fas fa-search search-icon search-wrapper"></i>
+		        <input type="text" id="searchBar" placeholder="Search..."> -->
+			<div class="search-wrapper">
+		    <i class="fas fa-search search-icon" style="color: crimson;"></i>
+		    <input type="text" id="searchBar" placeholder="Search..." oninput="handleSearch(this.value)" class="search-bar">
+		    <i class="fas fa-microphone voice-search-button" onclick="toggleVoiceSearch()" style="color: crimson;"></i>
+		    <div id="suggestions" class="suggestions" style="border: none;"></div>
+		</div>
+		<script>
+		    const suggestionsList = ["Oil Changing", "Tyre Replacement", "Engine Servicing", "book our services", "about us", "explore our services", "vehicle washes", "address", "available workshop", "Developers"];
+
+		    let recognition;
+		    let isRecognizing = false;
+
+		    if ('webkitSpeechRecognition' in window) {
+		        recognition = new webkitSpeechRecognition();
+		        recognition.continuous = false;
+		        recognition.interimResults = false;
+		        recognition.lang = 'en-US';
+
+		        recognition.onresult = function(event) {
+		            const transcript = event.results[0][0].transcript;
+		            document.getElementById('searchBar').value = transcript;
+		            handleSearch(transcript);
+		        };
+
+		        recognition.onend = function() {
+		            isRecognizing = false;
+		            document.querySelector('.voice-search-button').classList.remove('recording');
+		        };
+
+		        recognition.onerror = function(event) {
+		            console.error(event.error);
+		        };
+		    }
+
+		    function handleSearch(value) {
+		        showSuggestions(value);
+		        filterContent(value);
+		    }
+
+		    function showSuggestions(value) {
+		        const suggestionsContainer = document.getElementById('suggestions');
+		        suggestionsContainer.innerHTML = '';
+
+		        if (value.trim() === '') {
+		            return;
+		        }
+
+		        const filteredSuggestions = suggestionsList.filter(item => item.toLowerCase().includes(value.toLowerCase()));
+
+		        filteredSuggestions.forEach(suggestion => {
+		            const suggestionItem = document.createElement('div');
+		            suggestionItem.classList.add('suggestion-item');
+		            suggestionItem.textContent = suggestion;
+		            suggestionItem.onclick = () => selectSuggestion(suggestion);
+		            suggestionsContainer.appendChild(suggestionItem);
+		        });
+		    }
+
+		    function selectSuggestion(suggestion) {
+		        const searchBox = document.getElementById('searchBar');
+		        searchBox.value = suggestion;
+		        document.getElementById('suggestions').innerHTML = '';
+		        filterContent(suggestion);
+		    }
+
+		    function filterContent(value) {
+		        const contentItems = document.querySelectorAll('.content');
+		        contentItems.forEach(item => {
+		            if (item.textContent.toLowerCase().includes(value.toLowerCase())) {
+		                item.style.display = 'block';
+		            } else {
+		                item.style.display = 'none';
+		            }
+		        });
+		    }
+
+		    function toggleVoiceSearch() {
+		        if (isRecognizing) {
+		            recognition.stop();
+		        } else {
+		            recognition.start();
+		            isRecognizing = true;
+		            document.querySelector('.voice-search-button').classList.add('recording');
+		        }
+		    }
+		</script>
+	    <!-- end search -->
+
+	    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" style="border:1px solid crimson">
+	        <span class="navbar-toggler-icon" ></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarCollapse">
+	        <ul class="navbar-nav ms-auto p-4 p-lg-0" >
+	            <li class="nav-item">
+	                <a class="nav-link" href="#about" style="font-size: 14px;">About</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#service" style="font-size: 14px;">Services</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#Workshops" style="font-size: 14px;">Workshops</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#book" style="font-size: 14px;">Booking</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#contact" style="font-size: 14px;">Contact</a>
+	            </li>
+	            <li class="nav-item">
+	                <a class="nav-link" href="#" id="clickprofile"><i class="fas fa-address-book" style="font-size:38px;color:red"></i></a>
+	            </li>
+	            <!-- Add Button -->
+	            <li class="nav-item">
+					<!--<a class="btn btn-primary px-4 nav-link" th:href="@{/adminlogin}" role="button" style="font-size: 15px; color:white">Admin Login</a>-->
+					<a href=""th:href="@{/adminlogin}"><img src="" th:src="@{img/download.png}" class="nav-link" width="40px"></a> 
+
+	            </li>
+	        </ul>
+	    </div>
+	</nav>
+	<!-- Navbar End -->
+
+			<script>
+				// JavaScript to collapse the navbar when a link is clicked
+				document.addEventListener("DOMContentLoaded", function () {
+				    var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+				    var navbarCollapse = document.querySelector('.navbar-collapse');
+
+				    navLinks.forEach(function (link) {
+				        link.addEventListener('click', function () {
+				            if (window.innerWidth < 992) { // Only collapse for small screens
+				                navbarCollapse.classList.remove('show');
+				            }
+				        });
+				    });
+				});
+
+			</script>
+			<!--profile box-->
+			<script>
+			        // Function to show the box
+			        document.getElementById('clickprofile').addEventListener('click', function(event) {
+			            event.preventDefault(); // Prevent default action
+			            var box = document.getElementById('box');
+			            if (box.style.display === 'block') {
+			                box.style.display = 'none';
+			            } else {
+			                box.style.display = 'block';
+			            }
+			        });
+
+			      function closebtn(){
+					box.style.display='none';
+				  }
+
+		
+			        
+			    </script>
+		
+		<div class="box bg-light border rounded p-3" id="box" >
+		    <i class="fa fa-close close-btn text-danger" style="font-size: 24px;" onclick="closebtn();" id="closeBoxBtn"></i>
+		    
+		    <p sec:authentication="principal.username" class="mb-0"><b>User</b></p>
+			
+			<i id="locationSymbol" class="fas fa-map-marker-alt location-symbol" onclick="getLocation()"></i>
+																					<p id="demo"></p>
+																					<!--<a href="" onclick="viewprofile();">View Profile</a>-->
+		    <ul class="nav nav-pills nav-fill">
+		        <li class="nav-item" sec:authorize="isAuthenticated()">
+		            <a class="nav-link" th:href="@{/logout}"><b>Logout</b></a>
+					
+		        </li>
+		    </ul>
+		</div>
+		
+		
+		
+
+    </nav>
+    <!-- Navbar End -->
+
+	
+
+    <!-- Carousel Start -->
+	
+    <div class="container-fluid p-0 mb-5 content">
+        <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="" th:src ="@{img/mec1.jpg}" style="height: 20cm;">
+                    <div class="carousel-caption d-flex align-items-center">
+                        <div class="container">
+                            <div class="row align-items-center justify-content-center ">
+                                <div class="">
+                                    
+                                        <div class="row ">
+                                        <div class="col-md-7">
+											<h3 class="animate-charcter thirdheading col-ms-3">Workshops Near Me...</h3>
+											
+											<p class="lead"> Quickly book your vehicle service and discover the nearest workshops with our user-friendly platform </p>
+											<div class="button-group">
+											                                    <a th:href="@{/#book}" style="color: white;" class="booklink">
+											                                        Book Our Services
+											                                    </a><br>
+											                                    <a th:href="@{/main}" style="color: white;" class="booklink">
+											                                    Find a Nearest Workshop
+											                                    </a><br><br>
+																				<!--language translator-->
+																				<div id="google_translate_element" style="font-size: 36px;"></div>
+
+																				<script type="text/javascript">
+																				function googleTranslateElementInit() {
+																				  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+																				}
+																				</script>
+																				<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+																				<button class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#hintsModal">Get In Touch</button>
+		<a th:href="@{/check}" target="_blank"><button class="btn btn-primary" role="button"  >check Service Cost</button></a>
+											                                </div>		
+																			
+																														                        
+										</div>
+										
+										
+										
+										
+										
+										                         
+										                         
+										                              
+										
+                                        
+										<div class="col-md-5">
+											<img class=" logoss col-md-6" src="" th:src ="@{img/logo1.png}" alt="Image" >							
+										</div>
+										
+                                          
+                                        </div>
+                                    
+                                <div class="col-lg-5 d-none d-lg-flex animated zoomIn">
+                                 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- Carousel End -->
+	
+
+    <!-- Service Start -->
+    <div class="container-xxl py-5 content">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="d-flex py-5 px-4">
+                        <i class="fas fa-car-battery fa-3x text-primary flex-shrink-0"></i>
+                        <div class="ps-4">
+                            <h5 class="mb-3 ">Quality Servicing</h5>
+                            <p style="text-align: justify;" >Our expert technicians use the latest tools and techniques to deliver reliable 
+                                maintenance and repairs, keeping your vehicle in optimal condition.</p>
+                            <!-- <a class="text-secondary border-bottom" href="">Read More</a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp " data-wow-delay="0.3s">
+                    <div class="d-flex bg-light py-5 px-4">
+                        <i class="fa fa-users-cog fa-3x text-primary flex-shrink-0"></i>
+                        <div class="ps-4">
+                            <h5 class="mb-3 ">Expert Workers</h5>
+                            <p style="text-align: justify;">Our team of expert workers is dedicated to providing exceptional 
+                                service and ensuring your vehicle receives the highest quality care.</p>
+                    
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="d-flex py-5 px-4">
+                        <i class="fa fa-tools fa-3x text-primary flex-shrink-0"></i>
+                        <div class="ps-4">
+                            <h5 class="mb-3">Modern Equipment</h5>
+                            <p style="text-align: justify;">Our state-of-the-art facility is equipped with modern equipment to 
+                                ensure top-notch vehicle servicing and maintenance.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+    <!-- About Start -->
+    <div class="container-xxl py-5 content " id="about">
+        <div class="container ">
+            <div class="row g-5" >
+                <div class="col-lg-6 pt-4" style="min-height: 400px;">
+                    <div class="position-relative h-100 wow fadeIn" data-wow-delay="0.1s">
+                        <img class="position-absolute img-fluid w-100 h-100" src="" th:src="@{img/mec2.jpg}" style="object-fit: cover;" alt="">
+                        <div class="position-absolute top-0 end-0 mt-n4 me-n4 py-4 px-5" style="background: rgba(0, 0, 0, .08);">
+                            <h1 class="display-4 text-white mb-0" style="font-size: 35px;">New <span class="fs-4">For</span></h1>
+                            <h4 class="text-white">You</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" >
+                    <h6 class="text-primary text-uppercase" style="font-size: 25px;">// About Us //</h6>
+                    <h1 class="mb-4">For <span class="text-primary">CarServ</span>This is the Best Place For Your Auto Care</h1>
+                    <p class="mb-4" style="text-align: justify;">CarServicing is the best place for auto care, offering top-notch maintenance and 
+                        repair services to keep your vehicle running smoothly. Our skilled technicians use state-of-the-art tools 
+                        and techniques to ensure your car receives the highest quality care.</p> <br>
+                    <div class="row g-4 mb-3 pb-3">
+                        <div class="col-12 wow fadeIn" data-wow-delay="0.1s">
+                            <div class="d-flex">
+                                <div class="bg-light d-flex flex-shrink-0 align-items-center justify-content-center mt-1" style="width: 45px; height: 45px;">
+                                    <span class="fw-bold text-secondary">01</span>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 style="margin-top: 0.4cm; font-size: 20px;">24x7 Days of Working</h6>
+                                    <!-- <span>Diam dolor diam ipsum sit amet diam et eos</span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 wow fadeIn" data-wow-delay="0.3s">
+                            <div class="d-flex">
+                                <div class="bg-light d-flex flex-shrink-0 align-items-center justify-content-center mt-1" style="width: 45px; height: 45px;">
+                                    <span class="fw-bold text-secondary">02</span>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 style="margin-top: 0.4cm; font-size: 20px;"> Quality Servicing Center</h6>
+                                    <!-- <span>Diam dolor diam ipsum sit amet diam et eos</span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 wow fadeIn" data-wow-delay="0.5s">
+                            <div class="d-flex">
+                                <div class="bg-light d-flex flex-shrink-0 align-items-center justify-content-center mt-1" style="width: 45px; height: 45px;">
+                                    <span class="fw-bold text-secondary">03</span>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 style="margin-top: 0.4cm; font-size: 20px;">Affordable Pricing</h6>
+                                    <!-- <span>Diam dolor diam ipsum sit amet diam et eos</span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 wow fadeIn" data-wow-delay="0.5s">
+                            <div class="d-flex">
+                                <div class="bg-light d-flex flex-shrink-0 align-items-center justify-content-center mt-1" style="width: 45px; height: 45px;">
+                                    <span class="fw-bold text-secondary">04</span>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 style="margin-top: 0.4cm; font-size: 20px;">Customer Satisfaction</h6>
+                                    <!-- <span>Diam dolor diam ipsum sit amet diam et eos</span> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+
+
+    <!-- Fact Start -->
+    <div class="container-fluid fact bg-dark my-5 py-5 content">
+        <div class="container" style="margin-left:5cm ;">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.1s">
+                    <i class="fa fa-check fa-2x text-white mb-3"></i>
+                    <h2 class="text-white mb-2" data-toggle="counter-up">New</h2>
+                    <p class="text-white mb-0">For You</p>
+                </div> 
+                <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.3s">
+                    <i class="fa fa-users-cog fa-2x text-white mb-3"></i>
+                    <h2 class="text-white mb-2" data-toggle="counter-up">Many more</h2>
+                    <p class="text-white mb-0">Expert Technicians</p>
+                </div>
+                <div class="col-md-6 col-lg-3 text-center wow fadeIn" data-wow-delay="0.7s">
+                    <i class="fas fa-map-marked-alt fa-2x text-white mb-3"></i>
+                    <h2 class="text-white mb-2" data-toggle="counter-up">All over</h2>
+                    <p class="text-white mb-0">Trivandrum</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fact End -->
+
+
+    <!-- Service Start -->
+    <div class="container-xxl service py-5 content" id="service">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <img class="img-fluid" src="" th:src="@{img/servicess.gif}" style="height: 150px;">
+                <h1 class="mb-5">Why <span style="color:crimson">Choose Us</span></h1>
+            </div>
+            <div class="row g-4 wow fadeInUp" data-wow-delay="0.3s">
+				<div class="col-lg-4">
+				    <div class="nav w-100 nav-pills me-4">
+				        <button class="nav-link w-100 d-flex align-items-center text-start p-1 mb-3 active" data-bs-toggle="pill" data-bs-target="#tab-pane-1" type="button">
+				            <i class="fa fa-car-side fa-2x me-2"></i>
+				            <h4 class="m-0" id="s1">Vehicle washes</h4>
+				        </button>
+				        <button class="nav-link w-100 d-flex align-items-center text-start p-1 mb-3" data-bs-toggle="pill" data-bs-target="#tab-pane-2" type="button">
+				            <i class="fas fa-bolt fas fa-2x me-2"></i>
+				            <h4 class="m-0" id="s2">Engine Servicing</h4>
+				        </button>
+				        <button class="nav-link w-100 d-flex align-items-center text-start p-1 mb-3" data-bs-toggle="pill" data-bs-target="#tab-pane-5" type="button">
+				            <i class="fas fa-phone-volume fa-2x me-2"></i>
+				            <h4 class="m-0" id="s3">Auto-Mobile Services</h4>
+				        </button>
+				        <button class="nav-link w-100 d-flex align-items-center text-start p-1 mb-3" data-bs-toggle="pill" data-bs-target="#tab-pane-6" type="button">
+				            <i class="fas fa-car-crash fa-2x me-2"></i>
+				            <h4 class="m-0" id="s4">Vehicle Services</h4>
+				        </button>
+				        <button class="nav-link w-100 d-flex align-items-center text-start p-1 mb-3" data-bs-toggle="pill" data-bs-target="#tab-pane-3" type="button">
+				            <i class="fas fa-truck-monster fa-2x me-2"></i>
+				            <h4 class="m-0" id="s5">Tyre Replacement</h4>
+				        </button>
+				        <button class="nav-link w-100 d-flex align-items-center text-start p-1 mb-4" data-bs-toggle="pill" data-bs-target="#tab-pane-4" type="button">
+				            <i class="fa fa-oil-can fa-2x me-2"></i>
+				            <h4 class="m-0" id="s6">Oil Changing</h4>
+				        </button>
+						
+						<button class="btn btn-primary w-100"  role="button" data-bs-toggle="modal" data-bs-target="#hintsModal">Request a Callback</button>
+				    </div>
+
+				    
+				</div>
+                <div class="col-lg-8 ">
+                    <div class="tab-content w-100">
+                        <div class="tab-pane fade show active" id="tab-pane-1">
+                            <div class="row g-4">
+                                <div class="col-md-6" style="min-height: 350px;">
+                                    <div class="position-relative h-100">
+                                        <img class="position-absolute img-fluid w-100 h-100" src=""
+                                            style="object-fit: cover;" alt="#" th:src="@{img/service-1.jpg}">
+											
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="mb-3"><span style="color: crimson;">New for You...</span> Auto Servicing</h3>
+                                    <p class="mb-4" style="text-align: justify;">Welcome to our premier vehicle washing showroom, where
+                                         we offer top-tier cleaning services for your car. Our
+                                          state-of-the-art facility ensures your vehicle receives the 
+                                          best care, leaving it spotless and shining like new. Visit us 
+                                          for an exceptional wash that enhances your car's appearance
+                                           and value.
+                                    </p>
+                                    <div style="display: flex; ">
+                                        <div>
+                                            <p><i class="fa fa-check text-success me-3"></i>Quality Servicing</p>
+                                            <p><i class="fa fa-check text-success me-3"></i>Neat Washing</p>
+                                            <p><i class="fa fa-check text-success me-3"></i>Modern Equipment</p>
+                                        </div>
+                                        <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
+                                            <img src="" alt="#" th:src="@{img/carwash.gif}" style="width: 180px; height: 180px; border-radius: 20%; object-fit: cover;">
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-2">
+                            <div class="row g-4">
+                                <div class="col-md-6" style="min-height: 350px;">
+                                    <div class="position-relative h-100">
+                                        
+                                        <img class="position-absolute img-fluid w-100 h-100" src=""
+                                            style="object-fit: cover;" alt="" th:src="@{img/service-2.jpg}">
+											
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="mb-3"><span style="color: crimson;">New for You...</span> Auto Servicing</h3>
+                                    <p class="mb-4" style="text-align: justify;">Experience top-tier engine servicing at our state-of-the-art showroom, 
+                                        now accessible through our website. Visit us online to discover exceptional services tailored to your vehicle's needs.
+                                    </p>
+                                    <div style="display: flex; ">
+                                        
+                                        <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
+                                            <img src="" alt="#" th:src="@{img/engine.gif}" style="width: 290px; height: 180px; border-radius: 40%; object-fit: cover;">
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-5">
+                            <div class="row g-4">
+                                <div class="col-md-6" style="min-height: 350px;">
+                                    <div class="position-relative h-100">
+                                        
+                                        <img class="position-absolute img-fluid w-100 h-100" src=""
+                                            style="object-fit: cover;" alt="" th:src="@{img/mobile.jpg}">
+											
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="mb-3"><span style="color: crimson;">New for You...</span> Auto Servicing</h3>
+                                    <p class="mb-4" style="text-align: justify;">"Our website features an extensive auto mobile servicing showroom, providing
+                                         a comprehensive range of services and products 
+                                        for automotive enthusiasts. Explore our online showroom
+                                         to discover everything you need for superior auto care and maintenance."
+                                    </p>
+                                    <div style="display: flex; ">
+                                      
+                                        <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
+                                            <img src="" alt="#" th:src="@{img/auto.gif}" style="width: 310px; height: 200px; border-radius: 20%; object-fit: cover;">
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-6">
+                            <div class="row g-4">
+                                <div class="col-md-6" style="min-height: 350px;">
+                                    <div class="position-relative h-100">
+                                        
+                                        <img class="position-absolute img-fluid w-100 h-100" src=""
+                                            style="object-fit: cover;" alt="" th:src="@{img/service-2.jpg}">
+											
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="mb-3"><span style="color: crimson;">New for You...</span> Auto Servicing</h3>
+                                    <p class="mb-4" style="text-align: justify;">Our website features a dedicated vehicle service showroom, offering comprehensive details 
+                                        and options for your automotive needs. Explore our showroom online to discover convenient services tailored to your vehicle.
+                                    </p>
+                                    <div style="display: flex; ">
+                                        
+                                        <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
+                                            <img src="" alt="#" th:src="@{img/service.gif}" style="width: 400px; height: 200px; border-radius: 20%; object-fit: cover;">
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+					<div class="tab-pane fade" id="tab-pane-4">
+                            <div class="row g-4">
+                                <div class="col-md-6" style="min-height: 350px;">
+                                    <div class="position-relative h-100">
+						
+                                        <img class="position-absolute img-fluid w-100 h-100" src=""
+                                            style="object-fit: cover;" alt="" th:src="@{img/service-2.jpg}">
+											
+											
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="mb-3"><span style="color: crimson;">New for You...</span> Auto Servicing</h3>
+                                    <p class="mb-4" style="text-align: justify;">Our website offers convenient access to oil change services 
+                                        at our showroom. Explore our website for seamless booking and more information about our oil change offerings.
+                                    </p>
+                                    <div style="display: flex; ">
+                                        
+                                        <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
+											
+																        
+																 
+                                            <img src="" alt="#" th:src="@{img/oil.gif}" style="width: 300px; height: 220px; border-radius: 20%; object-fit: cover;">
+                                        </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="tab-pane-3">
+                            <div class="row g-4">
+                                <div class="col-md-6" style="min-height: 350px;">
+                                    <div class="position-relative h-100">
+                                        <img class="position-absolute img-fluid w-100 h-100" src=""
+                                            style="object-fit: cover;" alt="" th:src="@{img/service-3.jpg}">
+											
+											
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <h3 class="mb-3"><span style="color: crimson;">New for You...</span> Auto Servicing</h3>
+                                    <p class="mb-4" style="text-align: justify;">Our website offers a convenient tire repair service and showroom for your 
+                                        automotive needs. Explore our platform to discover accessible solutions for maintaining and purchasing tires.
+                                    </p>
+                                    
+                                        <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
+                                            <img src="" alt="#" th:src="@{img/wheel.gif}" style="width: 220px; height:180px; border-radius: 20%; object-fit: cover;">
+											
+                                        </div>
+                                   </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+	<!-- Request a Callback Button -->
+					  
+	
+	<!--Workshops Start-->
+	
+	
+	<!--Workshops End-->
+	<div class="container-xxl service py-5 content" id="Workshops">
+	    <div class="container">
+	        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+	            <img class="img-fluid" src="" th:src="@{img/workshopFind.gif}" style="height: 150px;">
+	            <h1 class="mb-5">Available <span style="color:crimson">Workshops</span></h1>
+	        </div>
+	        <div class="row">
+	            <div class="col-lg-4 col-md-6 mb-4">
+	                <figure class="card">
+	                    <h3 style="background-color: #c80815;"><i class="fas fa-tools"></i>MY CAR MOTORS</h3>
+	                    <img class="img-fluid" src="" th:src="@{img/img1.png}" alt="" style="padding: 15px;">
+	                    <figcaption>
+	                        <a href="https://maps.app.goo.gl/Y762PwHKWKa1FR1s7" class="location-icon" target="_blank">
+	                            <img class="img-fluid" src="" th:src="@{img/locations.gif}" alt="" style="width: 50px;height: 50px;">
+	                        </a>
+	                        Kakkavila, Thiruvananthapuram  
+	                        <br>
+	                        <p>Hours: 24 Hrs</p> 
+	                        <b>Phone: 09724901286</b>
+	                    </figcaption>
+	                </figure>
+	            </div>
+	            <div class="col-lg-4 col-md-6 mb-4">
+	                <figure class="card">
+	                    <h3 style="background-color: #c80815;"><i class="fas fa-car"></i>PRO TECH AUTO WORKS</h3>
+	                    <img class="img-fluid" src="" th:src="@{img/shop2.jpg}" alt="" style="padding: 15px;">
+	                    <figcaption>
+	                        <a href="https://maps.app.goo.gl/2nJEMrhimtm6kvMZ7" class="location-icon" target="_blank">
+	                            <img class="img-fluid" src="" th:src="@{img/locations.gif}" alt="" style="width: 50px;height: 50px;">
+	                        </a>
+	                        Santhigiri, Thiruvananthapuram 
+	                        <br>       
+	                        <p>Hours: 24 Hrs</p> 
+	                        <b>Phone: 08401089305</b>
+	                    </figcaption>
+	                </figure>
+	            </div>
+	            <div class="col-lg-4 col-md-6 mb-4">
+	                <figure class="card ">
+	                    <h3 style="background-color: #c80815;"><i class="fas fa-wrench"></i>SM CAR BEAUTY CLINIC</h3>
+	                    <img class="img-fluid" src="" th:src="@{img/img3.png}" alt="" style="padding: 15px;">
+	                    <figcaption>
+	                        <a href="https://maps.app.goo.gl/ZesUmeGyYHaLkdL19" class="location-icon" target="_blank">
+	                            <img class="img-fluid" src="" th:src="@{img/locations.gif}" alt="" style="width: 50px;height: 50px;">
+	                        </a>
+	                        Maruthankuzhi, Thiruvananthapuram 
+	                        <br>
+	                        <p>Hours: 24 Hrs</p> 
+	                        <b>Phone: 08401166286</b>
+	                    </figcaption>
+	                </figure>
+	            </div>
+	        </div>
+	      <span class="blinking">click to view more two view nearest workshops </span>  <div class="text-center mt-4">
+	           <a id="view-more" class="btn btn-primary view-more-button" style="background-color: #00072d; font-size: 18px;" th:href ="@{/main}">View More</a>
+	        </div>
+	    </div>
+	</div>
+	<!--Start Steps -->
+	                
+
+	    <section class="how-it-works content">
+	        <img class="img-fluid" src="" th:src="@{img/step.gif}" style="height: 150px;">
+	        <h1>How the Booking Works</h1> <br>
+	        <div class="steps">
+	            <div class="step">
+	                <h2>01</h2>
+	                <h3>Choose</h3>
+	                <p>Choose the booking Section</p>
+	            </div>
+	            <div class="step">
+	                <h2>02</h2>
+	                <h3>Book</h3>
+	                <p>Make An Appointment With Us</p>
+	            </div>
+	            <div class="step">
+	                <h2>03</h2>
+	                <h3>Success</h3>
+	                <p>Wait for the Success Message</p>
+	            </div>
+	            <div class="step">
+	                <h2>04</h2>
+	                <h3>Message</h3>
+	                <p>Your confirm mail</p>
+	            </div>
+	        </div>
+	    </section>
+
+	        
+	    <!-- End steps -->
+    <!-- Booking Start -->
+	
+			<div class="container-xxl service content py-5 content" id="book">
+					<div class="text-center wow fadeInUp " data-wow-delay="0.1s">
+					                <img class="img-fluid" src="" th:src="@{img/booking.gif}" style="height: 150px;">
+					                <h1 class="mb-5">Book <span style="color:crimson">Our Services</span></h1>
+					 </div>	
+				<div class="container-fluid bg-secondary booking my-5 wow fadeInUp " data-wow-delay="0.1s" id="book">
+					<div class="col-lg-6 justify-content-md-center float-lg-right" style="background-color: crimson; padding: 2rem;  ">
+					    <div style="margin-left: 2rem;">
+					        <h1 class="mb-5" style="color: white; text-align: center;">Book Here...</h1>
+					    </div>
+
+						<form method="post" th:action="@{/book}" id="bookingForm">
+						    <div class="row g-3">
+						        <!-- Existing Fields -->
+						        <div class="col-12 col-sm-6">
+						            <input type="text" class="form-control border-0" placeholder="Your Name" name="name" style="height: 55px;" required>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <input type="email" class="form-control border-0" placeholder="Your Email" name="email" style="height: 55px;" required>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <input type="text" class="form-control border-0" placeholder="Phone no." name="phone" style="height: 55px;" required>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <input type="text" class="form-control border-0" placeholder="Alternative Phone no." name="altPhone" style="height: 55px;">
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <input type="date" class="form-control border-0" placeholder="mm/dd/yyyy" name="date" style="height: 55px;" id="date" required>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <select class="form-select border-0" name="location" id="locationsss" style="height: 55px;" required>
+						                <option selected>Select Available Location</option>
+						                <option value="Attingal">Attingal</option>
+						                <option value="Kazhakuttom">Kazhakuttom</option>
+						                <option value="Kilimanoor">Kilimanoor</option>
+						                <option value="Kovalam">Kovalam</option>
+						                <option value="Palayam">Palayam</option>
+						                <option value="Pothencod">Pothencod</option>
+						                <option value="Trivandrum">Trivandrum</option>
+						                <option value="Varkala">Varkala</option>
+						                <option value="Venjaramood">Venjaramood</option>
+						                <option value="Vizhijam">Vizhijam</option>
+						            </select>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <select class="form-select border-0" name="service" id="servicesss" style="height: 55px;" required>
+						                <option selected>Select A Service</option>
+						                <option value="Vehicle Washes">Vehicle Washes</option>
+						                <option value="Engine Service">Engine Service</option>
+						                <option value="Auto-Mobile Service">Auto-Mobile Service</option>
+						                <option value="Tire Replacement">Tire Replacement</option>
+						                <option value="Oil Change">Oil Change</option>
+						            </select>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <select class="form-select border-0" name="vehicleType" id="vehicleType" style="height: 55px;" required>
+						                <option selected>Select Vehicle Type</option>
+						                <option value="Car">Car</option>
+						                <option value="Bike">Bike</option>
+						                <option value="Auto Rikshaw">Auto Rikshaw</option>
+						            </select>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <select class="form-select border-0" name="workshop" id="workshopsss" style="height: 55px;" required>
+						                <option selected>Select Workshop</option>
+						            </select>
+						        </div>
+						        <div class="col-12 col-sm-6">
+						            <select class="form-select border-0" name="timeSlot" id="timeSlot" style="height: 55px;" required>
+						                <option selected>Select Time Slot</option>
+						                <option value="8:00am-9:00am">8:00am-9:00am</option>
+						                <option value="9:00am-10:00am">9:00am-10:00am</option>
+						                <option value="10:00am-11:00am">10:00am-11:00am</option>
+						                <option value="11:00am-12:00pm">11:00am-12:00pm</option>
+						                <option value="12:00pm-1:00pm">12:00pm-1:00pm</option>
+						                <option value="1:00pm-2:00pm">1:00pm-2:00pm</option>
+						                <option value="2:00pm-3:00pm">2:00pm-3:00pm</option>
+						                <option value="3:00pm-4:00pm">3:00pm-4:00pm</option>
+						            </select>
+						        </div>
+								<div class="col-12">
+								    <textarea class="form-control border-0 w-100" placeholder="Additional Information" name="request" style="height: 55px;" ></textarea>
+								</div>
+						        <div class="col-12">
+						            <button class="btn btn-secondary w-100 py-3" type="submit" sec:authorize="isAuthenticated()" id="bookingbtn">Book Now</button>
+						        </div>
+						        <div class="col-12">
+						            <div id="successMessage" class="alert alert-success" style="display: none;" role="alert">
+						                Booking successful!
+						            </div>
+						        </div>
+						    </div>
+						</form>
+						</div>
+						</div>	
+
+						</div>
+    <!-- Team Start -->
+	
+	
+	
+	
+	
+	
+    <div class="container-xxl py-5  content">
+        <div class="container  ">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <!-- <h6 class="text-primary text-uppercase">// Our Technicians //</h6> -->
+                <img src="" alt="#" th:src="@{img/tech.gif}" style="width: 220px; height:130px; border-radius: 20%; object-fit: cover;">
+
+                <h1 class="mb-5" ><span style="color: crimson;">Devel</span>opers</h1>
+            </div>
+            <div class="row g-3" style="margin-left: 6cm;">
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="" th:src="@{img/lisy.jpg}" alt="">
+                            <div class="team-overlay position-absolute start-0 top-0 w-100 h-100">
+                                <!-- <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a> -->
+                                <!-- <a class="btn btn-square mx-1" href=""><i class="fas fa-envelope"></i></a> &nbsp; &nbsp;
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a> -->
+                                <img class="img-fluid" src="" th:src="@{img/back.gif}" alt="" style="padding: 15px;">
+
+                            </div>
+                        </div>
+                        <div class="bg-light text-center p-4">
+                            <h5 class="fw-bold mb-0">Lisy J</h5>
+                            <small>Back-End Developer</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src=""  th:src="@{img/ahalya.jpg}" alt="">
+                            <div class="team-overlay position-absolute start-0 top-0 w-100 h-100">
+                                <!-- <a class="btn btn-square mx-1" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-square mx-1" href=""><i class="fab fa-instagram"></i></a> -->
+                                <img class="img-fluid" src="" th:src="@{img/desig.gif}" style="height: 150px;padding: 15px;">
+                            </div>
+                        </div>
+                        <div class="bg-light text-center p-4">
+                            <h5 class="fw-bold mb-0">Ahalya R S</h5>
+                            <small>Front-End Developer</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item">
+                        <div class="position-relative overflow-hidden">
+                            <img class="img-fluid" src="" th:src="@{img/remya.jpg}" alt="" style="height: 320.5px;">
+                            <div class="team-overlay position-absolute start-0 top-0 w-100 h-100">
+								<img class="img-fluid" src="" th:src="@{img/frontend.gif}" style="height: 150px;padding: 5px;">
+                            </div>
+                        </div>
+                        <div class="bg-light text-center p-4">
+                            <h5 class="fw-bold mb-0">Remya K S</h5>
+                            <small>Front-End Developer</small>
+                        </div>
+                    </div>
+                </div>
+               
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+<!--Start of Testmonials Section   th:action="@{/sendEmail}"    action="/submitBooking"-->
+
+
+
+<!-- End of Testimonials Section -->
+  
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn content" data-wow-delay="0.1s" id="contact">
+        <div class="container py-5 ">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Address</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>WorkShopsNearME, <br>&nbsp; Kazhakkuttom.</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>9955663311</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>workshopsnearme@gmail.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="https://x.com/workshopsnearme" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="mailto:workshopsnearme@gmail.com" target="_blank"><i class="fa fa-envelope" ></i></a>
+                        <a class="btn btn-outline-light btn-social" href="https://youtube.com/@workshopsnearme?si=GqhrmnVsewVIDJNP" target="_blank"><i class="fab fa-youtube"></i></a>
+                      
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Opening Hours</h4>
+                    <h6 class="text-light">24 X 7</h6><br>
+			
+					<button class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#hintsModal">Get In Touch</button>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Services</h4>
+                    <a class="btn btn-link" href="#service">Vehicle Washes</a>
+                    <a class="btn btn-link" href="#service">Engine Servicing</a>
+                    <a class="btn btn-link" href="#service">Auto-Mobile Service</a>
+                    <a class="btn btn-link" href="#service">Vehicle Service</a>
+                    <a class="btn btn-link" href="#service">Tyre Replacement</a>
+                    <a class="btn btn-link" href="#service">Oil Changing</a>
+                    
+                </div>
+               <div class="col-lg-3 col-md-6">
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        
+                        <!--<button  type="button" id="feedback" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2 open-button" style="width: 250px;" onclick="openForm()">Feedback</button>-->
+						
+						<!--Form start-->
+						<!-- Button to open the form -->
+						<!--<button id="feedback">Feedback</button>-->
+						
+						                         
+
+						                     <!--Form End-->    
+
+						             <!--feed back*****-->
+
+						                 
+
+						             
+
+						                 <script>
+
+						                  function selectStar(rating) {
+
+						                  const stars = document.querySelectorAll('.star');
+
+						                  const feedbackText = document.getElementById("feedback-text");
+
+						                  const feedbackEmoji = document.getElementById("feedback-emoji");
+
+
+
+						                  // Reset all stars
+
+						                  stars.forEach(star => {
+
+						                  star.classList.remove('checked');
+
+						                  });
+
+
+
+						                  // Add checked class to selected stars and disable all stars
+
+						                  for (let i = 0; i < rating; i++) {
+
+						                  stars[i].classList.add('checked');
+
+						                  }
+
+
+
+						                  stars.forEach(star => {
+
+						                  star.classList.add('disabled');
+
+						                  });
+
+
+
+						                  // Provide feedback based on the selected rating
+
+						                  switch (rating) {
+
+						                  case 1:
+
+						                  feedbackText.innerText = "Terrible";
+
+						                  feedbackEmoji.innerText = "😞";
+
+						                  break;
+
+						                  case 2:
+
+						                  feedbackText.innerText = "Bad";
+
+						                  feedbackEmoji.innerText = "😕";
+
+						                  break;
+
+						                  case 3:
+
+						                  feedbackText.innerText = "Average";
+
+						                  feedbackEmoji.innerText = "😐";
+
+						                  break;
+
+						                  case 4:
+
+						                  feedbackText.innerText = "Good";
+
+						                  feedbackEmoji.innerText = "😊";
+
+						                  break;
+
+						                  case 5:
+
+						                  feedbackText.innerText = "Excellent";
+
+						                  feedbackEmoji.innerText = "😁";
+
+						                  break;
+
+						                  default:
+
+						                  feedbackText.innerText = "Select a rating";
+
+						                  feedbackEmoji.innerText = "";
+
+						                  break;
+
+						                  }
+
+						                  }
+
+						                  </script>
+
+						                     <style>
+
+						                         .rating-container {
+
+						                          text-align: center;
+
+						                          }
+
+
+
+						                          .star-rating {
+
+						                          display: flex;
+
+						                          justify-content: center;
+
+						                          margin: 20px 0;
+
+						                          }
+
+
+
+						                          .star {
+
+						                          font-size: 40px;
+
+						                          color: lightgray;
+
+						                          cursor: pointer;
+
+						                          margin: 0 5px;
+
+						                          transition: color 0.2s;
+
+						                          }
+
+
+
+						                          input[type="radio"] {
+
+						                          display: none;
+
+						                          }
+
+
+
+						                          .star.checked {
+
+						                          color: orange;
+
+						                          }
+
+
+
+						                         
+
+
+
+						                          #feedback {
+
+						                          display: flex;
+
+						                          align-items: center;
+
+						                          justify-content: center;
+
+						                          margin-top: 10px;
+
+						                          }
+
+
+
+						                          #feedback-text {
+
+						                          font-size: 18px;
+
+						                          margin-right: 1px;
+
+						                          }
+
+
+
+						                          #feedback-emoji {
+
+						                          font-size: 24px;
+
+						                          }
+
+						                     </style>
+
+						             <!--feed back END*****-->
+						<!-- The form -->
+						<div class="feedback-form">
+						        <h2 style="color:white">User Rating</h2>
+								<form th:action="@{/ratings}" method="POST" id="feedbackForm">
+								        <div class="rating">
+								            <input type="radio"  class="star" id="star5" name="rating" value="5" onclick="selectStar(5)">
+								            <label for="star5" >&#9733;</label>
+								            <input type="radio"class="star" id="star4" name="rating" value="4" onclick="selectStar(4)">
+								            <label for="star4"  >&#9733;</label>
+								            <input type="radio" class="star" id="star3" name="rating" value="3" onclick="selectStar(3)">
+								            <label for="star3"  >&#9733;</label>
+								            <input type="radio"class="star" id="star2" name="rating" value="2" onclick="selectStar(2)">
+								            <label for="star2"  >&#9733;</label>
+								            <input type="radio" class="star" id="star1" name="rating" value="1" onclick="selectStar(1)">
+								            <label for="star1"  >&#9733;</label>
+								        </div>
+										<div id="feedback">
+
+										                        <span id="feedback-text"></span>
+
+										                        <span id="feedback-emoji"></span>
+
+										                        </div>
+
+								        <button type="submit" class="submit-btn">Submit</button>
+								    </form>
+									<div id="success_Message" class="success-message">Thank you for your feedback!</div>
+						    </div>
+							
+						<!--Form End-->	
+						
+					
+					
+						
+						<!-- End Script-->
+                    </div>
+					
+                </div>
+            </div>
+			<div class="container">
+			            <div class="copyright">
+			                <div class="row">
+			                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+			                    <a class="border-bottom" href="#">WorkShops Near Me</a>
+
+			                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+			                        Designed By <a class="border-bottom" >Java Coderes.</a>
+			                        <!-- <br>Distributed By: <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a> -->
+			                    </div>
+			                    <div class="col-md-6 text-center text-md-end">
+			                        <div class="footer-menu">
+			                            <a href="">Home</a>
+			                            <a href="#about">About</a>
+			                            <a href="#service">Service</a>
+			                            <a href="#contact">Contact</a>
+			                        </div>
+									
+			                    </div>
+								
+			                </div>
+			            </div>
+        </div>
+		<br>
+											<br>
+		<div class="text-center mt-4">
+			<img width="150px" src="" th:src ="@{img/logo1.png}" alt="Image" >	
+		                <p class="mb-0">Copyright &copy; 2024 WorkshopsNearMe. All rights reserved.</p>
+		            </div>
+        </div>
+    </div>
+   <style>
+	
+		 .feedback-form {
+		  max-width: 400px;
+		  margin: 0 auto;
+		}
+
+		.rating {
+		  margin-bottom: 20px;
+		  display: flex;
+		  flex-direction: row-reverse; /* this is the magic */
+		  justify-content: flex-end;
+		}
+
+		.rating input {
+		  display: none;
+		}
+
+		.rating label {
+		  font-size: 24px;
+		  cursor: pointer;
+		}
+
+		.rating label:hover,
+		.rating label:hover ~ label { /* reason why the stars are in reverse order in the html */
+		  color: orange;
+		}
+
+		.rating input:checked ~ label {
+		  color: orange;
+		}
+
+		.comment {
+		  margin-bottom: 20px;
+		}
+
+		.comment textarea {
+		  width: 100%;
+		  height: 100px;
+		  resize: none;
+		}
+
+		.submit-btn {
+		  background-color: crimson;
+		  color: #fff;
+		  font-size: 18px;
+		  padding: 10px 20px;
+		  border: none;
+		  cursor: pointer;
+		  border-radius: 5px;
+		}
+		#success_Message
+		{
+			color:wheat;
+			font-size: 20px;
+		}
+		/* Close button styling */
+		.close-btns {
+		    position: absolute;
+		   
+		    right: 40px;
+			top: 26px;
+		    background: none;
+		    border: none;
+		    font-size: 24px;
+		    font-weight: bold;
+		    color: rgb(192, 192, 192);
+		    cursor: pointer;
+		}
+
+		.close-btns:hover {
+		    color: rgb(192, 192, 192);
+		}
+   </style>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" id="myBtn" style="display: none;"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/tempusdominus/js/moment.min.js"></script>
+    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+
+   
+
+
+<script>
+    
+
+    let mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+</script>
+<script>
+	        document.addEventListener('DOMContentLoaded', function() {
+	    const viewMoreButton = document.getElementById('view-more');
+	    const hiddenContainer = document.querySelector('.card-container.hidden');
+
+	    viewMoreButton.addEventListener('click', function() {
+	        // Toggle visibility of the hidden container
+	        hiddenContainer.classList.toggle('hidden');
+	        
+	        // Smooth scroll to the hidden container
+	        hiddenContainer.scrollIntoView({ behavior: 'smooth' });
+
+	        // Change button text based on container visibility
+	        if (hiddenContainer.classList.contains('hidden')) {
+	            viewMoreButton.textContent = 'View More';
+	        } else {
+	            viewMoreButton.textContent = 'View Less';
+	        }
+	    });
+	});
+</script>
+
+  <style>
+	
+
+
+	.card-container {
+	    display: grid;
+	    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+	    gap: 20px;
+	    padding: 10px;
+	    /* margin: 0 10px; */
+	    margin-right:2.5em;
+	    margin-left: 2.5em;
+	}
+
+	.card {
+	    background-color: #fff;
+	    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	    border-radius: 10px;
+	    overflow: hidden;
+	    text-align: left;
+	    transition: transform 0.2s, box-shadow 0.2s;
+	}
+
+	.card:hover {
+	    transform: translateY(-10px);
+	    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	}
+
+	.card img {
+	    width: 100%;
+	    height: 200px;
+	    object-fit: cover;
+	}
+
+	.card figcaption {
+	    padding: 15px;
+	  
+	}
+
+	.card h3 {
+	    margin: 10px;
+	    padding: 15px;
+	    background-color: #A93226;
+	    color: white;
+	    text-align: center;
+	    position: relative;
+	}
+	
+	
+	
+	
+	
+
+
+	
+	
+	
+	
+	.lead {
+	    text-align: left; /* Align paragraph text to the left */
+	    margin-bottom: 20px;
+		margin-left: 48px;
+		font-size: 20px;
+		font-weight: 200;
+		color: lightgoldenrodyellow;
+	}
+	
+
+	.card h3 i {
+	    margin-right: 10px;
+	}
+	.location-icon{
+	    color: #A93226;
+	}
+
+	.view-more-button {
+	    grid-column: span 4; /* Place the button across the entire row */
+	    margin: 20px auto;
+	    padding: 10px 20px;
+	    font-size: 16px;
+	    color: #fff;
+	    background-color: #A93226;
+	    border: none;
+	    border-radius: 5px;
+	    cursor: pointer;
+	    transition: background-color 0.3s;
+	}
+
+	.view-more-button:hover {
+	    background-color: #922B21;
+	}
+
+	.hidden {
+	    display: none;
+	}
+
+	#container {
+	    max-height: 400px;
+	    overflow-y: auto;
+	    margin-top: 20px;
+	    padding-right: 10px; /* To make space for the scrollbar */
+	}
+  </style>
+
+  <script>
+      // Get today's date
+      const today = new Date();
+
+      // Add one day to today's date
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+
+      // Format the date as yyyy-mm-dd
+      const tomorrowStr = tomorrow.toISOString().split('T')[0];
+
+      // Set the min attribute to tomorrow's date
+      document.getElementById('date').setAttribute('min', tomorrowStr);
+	  
+	  
+  </script>
+  
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const locationSelect = document.getElementById('locationsss');
+
+        const serviceSelect = document.getElementById('servicesss');
+
+        const vehicleTypeSelect = document.getElementById('vehicleType');
+
+        const workshopSelect = document.getElementById('workshopsss');
+
+
+
+        const workshops = {
+
+            'Attingal': ['Friends Automobiles','Saras car ac workshops','Ganga Workshops','Saroj Workshop','Mariyam Service Center','The Marshal Garage','Friday Workshop'],
+
+            'Kazhakuttom': ['Gopans Service Center', 'Bosch Workshop','Perfect Maruti Service center','Mars Auto Electrical Workshops','Surabhi Workshops','Concept Color','SB Workshop'],
+
+            'Kilimanoor': ['Focus Welding '],
+
+            'Kovalam': ['Nithya Workshop', 'U V P Two Wheeler','Amme Bhaghavathi','Shiva Sakthi'],
+
+            'Palayam': ['Kailas Two Wheeler', 'Elegent workshop',],
+
+            'Pothencod': ['Royal Driver car', 'German Motors','Vinayaka Service Station',
+
+  		  'German Tech Skoda','DS Service Center','Aramam Service Station','Vision Auto Center','Car cool Car Ac','Bismi Car center'],
+
+            'Trivandrum': ['My Car Motors', 'Indigoo International','RVS MOTO HUB','Moto Lab',
+
+  		  'M Tech Motors','Car Cardiac Care','Real Touch Automobiles','Imperial',
+
+  		  'Sm Car Beauty Clinic','Kelester Engineers'],
+
+            'Varkala': ['Royal autox', 'Sree Mookambika','MS Two Wheeler Works','Petrol Issues Garage',
+
+  		  'Marikar Honda Service','Jackson two wheeler','Maruti Suzuki Service','Radhakrishna Workshop'],
+
+            'Venjaramood': ['T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints'],
+
+            'Vizhijam': ['Shiva Sakthi', 'Ambady Auto Works','Siva Automobiles', 'K G Auto Works']
+
+        };
+
+
+
+        const services = {
+
+            'Vehicle Washes': ['Venus Motors','Sm Car Beauty Clinic','Imperial','Real Touch Automobiles','Car Cardiac Care','RVS MOTO HUB','My Car Motors','Marikar Honda Service', 'Maruti Suzuki Service','Bismi Car center','Car cool Car Ac','Vision Auto Center','Aramam Service Station','DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Saroj Workshop', 'The Marshal Garage', 'Mariyam Service Center', 'Workshop7'],
+
+            'Engine Service': ['Gopans Service Center','T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints','K G Auto Works','Siva Automobiles','Shiva Sakthi','Kelester Engineers','Real Touch Automobiles','M Tech Motors','Moto Lab','RVS MOTO HUB','My Car Motors','Royal autox','Sree Mookambika','MS Two Wheeler Works','Jackson two wheeler','Maruti Suzuki Service','Radhakrishna Workshop','Shiva Sakthi','Amme Bhaghavathi','U V P Two Wheeler','Focus Welding','Elegent workshop','Kailas Two Wheeler','Bismi Car center','Car cool Car Ac','Vision Auto Center','Aramam Service Station', 'DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Royal Driver car','Friday Workshop','The Marshal Garage','Friends Automobiles ', 'Saras car ac workshops', 'Ganga Workshops', 'Saroj Workshop','Mariyam Service Center'],
+
+            'Auto-Mobile Service': ['Royal autox','Siva Automobiles','Ambady Auto Works','Shiva Sakthi','Real Touch Automobiles','Moto Lab','Indigoo International','My Car Motors','The Marshal Garage', 'Mariyam Service Center', 'Workshop13', 'Workshop15'],
+
+            'Tire Replacement': ['T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints','K G Auto Works','Siva Automobiles','Ambady Auto Works','Shiva Sakthi','Moto Lab','RVS MOTO HUB','Indigoo International','My Car Motors','Royal autox','Sree Mookambika','MS Two Wheeler Works','Jackson two wheeler','Radhakrishna Workshop','Shiva Sakthi','Amme Bhaghavathi','Nithya Workshop','Elegent workshop','Kailas Two Wheeler','Car cool Car Ac', 'Vision Auto Center','DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Royal Driver car','Friday Workshop','The Marshal Garage','Friends Automobiles and Industrial workshops', 'Saras car ac workshops', 'Ganga Workshops', 'Saroj Workshop','Mariyam Service Center'],
+
+            'Oil Change': ['Venus Motors','Siva Automobiles','Ambady Auto Works','Kelester Engineers','Car Cardiac Care','RVS MOTO HUB','My Car Motors','Royal autox','Petrol Issues Garage','Marikar Honda Service','Jackson two wheeler','U V P Two Wheeler','Elegent workshop','Kailas Two Wheeler','Car cool Car Ac','Vision Auto Center','German Motors','Friday Workshop','The Marshal Garage','Friends Automobiles and Industrial workshops', 'Saras car ac workshops', 'Ganga Workshops', 'Saroj Workshop','Mariyam Service Center','Royal Driver car']
+
+        };
+
+
+
+        const vehicleTypes = {
+
+            'Car': ['Gopans Service Center','T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints','Siva Automobiles','Kelester Engineers','Sm Car Beauty Clinic','Imperial','Real Touch Automobiles','Car Cardiac Care','M Tech Motors','Moto Lab','RVS MOTO HUB','My Car Motors','Maruti Suzuki Service','Petrol Issues Garage','Marikar Honda Service','Shiva Sakthi','Bismi Car center','Car cool Car Ac','Vision Auto Center','Aramam Service Station','DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Royal Driver car','Kailas Two Wheeler','Friends Automobiles ', 'Gopans Service Center', 'The Marshal Garage', 'Saroj Workshop'],
+
+            'Bike': ['Venus Motors','Siva Automobiles','Shiva Sakthi','Kelester Engineers','M Tech Motors','RVS MOTO HUB','Indigoo International','Royal autox','Jackson two wheeler','Radhakrishna Workshop','Petrol Issues Garage','MS Two Wheeler Works','Sree Mookambika','Royal autox','Amme Bhaghavathi','U V P Two Wheeler','Vinayaka Service Station','Elegent workshop','Mars Auto Electrical Workshops', 'Concept Color', 'SB Workshop'],
+
+            'Auto Rikshaw': ['Royal autox','K G Auto Works','Ambady Auto Works','Kelester Engineers','M Tech Motors','Royal autox','Sree Mookambika','Radhakrishna Workshop','Nithya Workshop','Auto','Vinayaka Service Station','Elegent workshop','Kailas Two Wheeler','Perfect Maruti Service center', 'Surabhi Workshops']
+
+        };
+
+
+
+        function updateWorkshopOptions() {
+
+            const selectedLocation = locationSelect.value;
+
+            const selectedService = serviceSelect.value;
+
+            const selectedVehicleType = vehicleTypeSelect.value;
+
+
+
+            console.log(`Selected Location: ${selectedLocation}`);
+
+            console.log(`Selected Service: ${selectedService}`);
+
+            console.log(`Selected Vehicle Type: ${selectedVehicleType}`);
+
+
+
+            workshopSelect.innerHTML = '<option selected>Select Workshop</option>';
+
+
+
+            if (selectedLocation && selectedService && selectedVehicleType) {
+
+                const locationWorkshops = workshops[selectedLocation] || [];
+
+                const serviceWorkshops = services[selectedService] || [];
+
+                const vehicleWorkshops = vehicleTypes[selectedVehicleType] || [];
+
+                const availableWorkshops = locationWorkshops.filter(workshop => serviceWorkshops.includes(workshop) && vehicleWorkshops.includes(workshop));
+
+
+
+                console.log(`Location Workshops: ${locationWorkshops}`);
+
+                console.log(`Service Workshops: ${serviceWorkshops}`);
+
+                console.log(`Vehicle Workshops: ${vehicleWorkshops}`);
+
+                console.log(`Available Workshops: ${availableWorkshops}`);
+
+
+
+                availableWorkshops.forEach(workshop => {
+
+                    const option = document.createElement('option');
+
+                    option.value = workshop;
+
+                    option.textContent = workshop;
+
+                    workshopSelect.appendChild(option);
+
+                });
+
+            }
+
+        }
+
+
+
+        locationSelect.addEventListener('change', updateWorkshopOptions);
+
+        serviceSelect.addEventListener('change', updateWorkshopOptions);
+
+        vehicleTypeSelect.addEventListener('change', updateWorkshopOptions);
+
+    });
+
+    </script>
+  <!--Booking Form-->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('bookingForm');
+      const successMessage = document.getElementById('successMessage');
+	  const submitbtn=document.getElementById('bookingbtn')
+      form.addEventListener('submit', function(event) {
+          event.preventDefault();
+          
+          const formData = new FormData(form);
+
+          fetch(form.getAttribute('action'), {
+              method: 'POST',
+              body: formData,
+              headers: {
+                  'X-Requested-With': 'XMLHttpRequest'
+              }
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.success) {
+                  successMessage.style.display = 'block';
+				  submitbtn.disabled = true;
+                  successMessage.textContent = data.message;
+				  
+              } else {
+                  alert('Booking failed. Please try again.');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              alert('An error occurred. Please try again.');
+          });
+      });
+  });
+  </script>
+  
+  <!--bookin end-->
+  <!--reating-->
+	
+  <script>
+          $(document).ready(function () {
+              $('#feedbackForm').on('submit', function (event) {
+                  event.preventDefault();
+
+                  $.ajax({
+                      type: 'POST',
+                      url: '/ratings',
+                      data: $(this).serialize(),
+                      success: function (response) {
+                          $('#success_Message').text(response).show();
+                      },
+                      error: function () {
+                          $('#success_Message').text('please select rating!.').show();
+                      }
+                  });
+              });
+          });
+      </script>
+  
+</body>
+
+</html>

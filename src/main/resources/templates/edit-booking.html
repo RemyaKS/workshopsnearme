@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Booking</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 50%;
+            
+            background-color: #ffffff;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+			
+        }
+
+        h1 {
+            text-align: center;
+            color: crimson;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-size: 16px;
+            color: crimson;
+        }
+
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: crimson;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #c82333;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: crimson;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+		
+		.btn-logout {
+		            background-color: crimson;
+		            color: white;
+		            border: none;
+		            padding: 10px 15px;
+		            cursor: pointer;
+		            font-size: 16px;
+		            margin: 20px 0;
+		            display: block;
+		            text-align: center;
+		            width: 200px;
+		            margin-left: auto;
+		            margin-right: auto;
+		        }
+
+		        .btn-logout:hover {
+		            background-color: #0056b3;
+		        }
+
+		        .sidebar {
+		            width: 250px;
+		            height: 100vh;
+		            background-color: crimson;
+		            color: #fff;
+		            position: fixed;
+		            top: 0;
+		            left: 0;
+		            padding: 20px;
+		        }
+
+		        .sidebar h2 {
+		            margin-top: 0;
+		            font-size: 24px;
+		        }
+
+		        .sidebar ul {
+		            list-style-type: none;
+		            padding: 0;
+		        }
+
+		        .sidebar ul li {
+		            margin: 20px 0;
+		        }
+
+		        .sidebar ul li a {
+		            color: #fff;
+		            text-decoration: none;
+		            font-size: 18px;
+		        }
+
+		        .sidebar ul li a:hover {
+		            text-decoration: underline;
+		        }
+
+		        .main-content {
+		            margin-left: 270px;
+		            padding: 50px;
+					
+		        }
+    </style>
+</head>
+<body>
+	
+    <div class="container main-content">
+        <h1>Edit Booking</h1>
+        <form th:action="@{/updateBooking/{id}(id=${booking.id})}" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" th:value="${booking.name}" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" th:value="${booking.email}" required disabled>
+
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" th:value="${booking.phone}" required disabled>
+
+            <label for="date">Date:</label>
+            <input type="text" id="date" name="date" th:value="${booking.date}" required>
+			
+			<label for="date">Timeslot:</label>
+			            <input type="text" id="timeSlot" name="timeSlot" th:value="${booking.timeSlot}" required>
+
+            <label for="service">Service:</label>
+            <input type="text" id="service" name="service" th:value="${booking.service}" required>
+
+            <label for="workshop">Workshop:</label>
+            <input type="text" id="workshop" name="workshop" th:value="${booking.workshop}" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" th:value="${booking.location}" required>
+
+            <label for="request">Request:</label>
+            <input type="text" id="request" name="request" th:value="${booking.request}">
+
+            <button type="submit">Update Booking</button>
+        </form>
+        <a th:href="@{/admin}" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html>

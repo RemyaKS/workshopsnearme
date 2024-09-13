@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Callback Requests</title>
+    <style>
+        /* Your existing styles */
+		h1 {
+			            text-align: center;
+			            margin-bottom: 30px;
+			        }
+			
+			        table {
+			            width: 100%;
+			            border-collapse: collapse;
+			            margin-bottom: 20px;
+			            background-color: #fff;
+			            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			        }
+			
+			        table th, table td {
+			            border: 1px solid #ddd;
+			            padding: 8px;
+			            text-align: center;
+			        }
+			
+			        table th {
+			            background-color: #f2f2f2;
+			        }
+			
+			        table tr:nth-child(even) {
+			            background-color: #f9f9f9;
+			        }
+			
+			        table tr:hover {
+			            background-color: #f1f1f1;
+			        }
+			
+			        .btn-delete, .btn-call {
+			            background-color: #007bff;
+			            color: white;
+			            border: none;
+			            padding: 5px 10px;
+			            cursor: pointer;
+			            font-size: 14px;
+			        }
+			
+			        .btn-delete {
+			            background-color: #dc3545;
+			        }
+			
+			        .btn-delete:hover {
+			            background-color: #c82333;
+			        }
+			
+			        .btn-call:hover {
+			            background-color: #0056b3;
+			        }
+			
+			        .maincontent {
+			            margin-left: 300px;
+			        }
+					
+					.btn-logout {
+									            background-color: white;
+									            color: red;
+									            border: none;
+									            padding: 10px 15px;
+									            cursor: pointer;
+									            font-size: 16px;
+									            margin: 20px 0;
+									            display: block;
+									            text-align: center;
+									            width: 200px;
+									            margin-left: auto;
+									            margin-right: auto;
+												text-decoration: none;
+												font-size: 20px;
+									        }
+
+									        .btn-logout:hover {
+									            background-color: crimson;
+												color:white;
+												border:1px solid white;
+												text-decoration: none;
+									        }
+
+					        .sidebar {
+					            width: 250px;
+					            height: 100vh;
+					            background-color: crimson;
+					            color: #fff;
+					            position: fixed;
+					            top: 0;
+					            left: 0;
+					            padding: 20px;
+								
+					        }
+
+					        .sidebar h2 {
+					            margin-top: 0;
+					            font-size: 24px;
+					        }
+
+					        .sidebar ul {
+					            list-style-type: none;
+					            padding: 0;
+					        }
+
+					        .sidebar ul li {
+					            margin: 20px 0;
+					        }
+
+					        .sidebar ul li a {
+					            color: #fff;
+					            text-decoration: none;
+					            font-size: 18px;
+					        }
+
+					        .sidebar ul li a:hover {
+					            text-decoration: underline;
+					        }
+							.logo-image {
+
+															           width: 70%;
+
+															           background-size: center;
+
+															           background-position: center;
+
+															           position: relative;
+																	   padding-left: 40px;
+
+															       }
+
+															       .logo-image img {
+
+															           width: 100%;
+
+															           height: 35%;
+
+															          padding-top:30%;
+
+															       }
+
+
+    </style>
+</head>
+<body>
+	<div class="sidebar" >
+		
+		<div class="logo-image">
+						<a href="/" target="_blank">
+						    <!-- Existing image or default placeholder -->
+
+						    <img id="userImages" src="" th:src ="@{img/logo1.png}" alt="User Image" >
+							</a>
+						</div>
+	        <h1>Welcome, admin</h1>
+			<ul>
+			           <li><a href="/admin">Dashboard</a></li>
+				
+			           <li><a th:href="@{/add-user}">Add Workshop</a></li>
+			           <li><a th:href="@{/users}">View Workshops</a></li>
+					
+					
+					
+			       </ul>
+	        <a href="/adminlogin" class="btn-logout">Logout</a>
+	    </div>
+		
+<div class="maincontent">
+    <h1>Callback Requests</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Vehicle Details</th>
+                <th>Mobile Phone</th>
+                <th>Email ID</th> <!-- New column for Email ID -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="request : ${requests}">
+                <td th:text="${request.id}"></td>
+                <td th:text="${request.firstName}"></td>
+                <td th:text="${request.vehicleDetails}"></td>
+                <td th:text="${request.mobilePhone}"></td>
+                <td th:text="${request.emailId}"></td> <!-- Display Email ID -->
+                <td>
+                    <!-- Make a Call button -->
+                    <button class="btn-call" onclick="makeCall(this)">Make a Call</button>
+                    <!-- Delete button -->
+                    <form th:action="@{/deleteRequest/{id}(id=${request.id})}" method="post" style="display:inline;">
+                        <button type="submit" class="btn-delete">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function makeCall(button) {
+        // Get the row of the button that was clicked
+        const row = button.closest('tr');
+
+        // Extract the mobile phone number from the fourth cell (index 3)
+        const mobilePhone = row.cells[3].innerText;
+
+        // Simulate making a call (you could integrate a real call API here)
+        alert('Calling ' + mobilePhone);
+    }
+</script>
+
+</body>
+</html>

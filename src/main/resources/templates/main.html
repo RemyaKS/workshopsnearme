@@ -1,0 +1,5208 @@
+
+
+ <!DOCTYPE html>
+
+<html lang="en">
+
+
+
+<head>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'><link rel="stylesheet" href="./style.css">
+
+ <meta charset="utf-8">
+
+ <title>WorkShops Near me</title>
+
+ <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+ <meta content="" name="keywords">
+
+ <meta content="" name="description">
+
+ <link rel="icon" type="image/x-icon" href="/img/1234.svg" >
+
+ <!-- Favicon --> <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+ <link href="img/favicon.ico" rel="icon">
+
+
+
+ <!-- Google Web Fonts -->
+
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+ <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Ubuntu:wght@400;500&display=swap" rel="stylesheet"> 
+
+
+
+ <!-- Icon Font Stylesheet -->
+
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+
+
+ <!-- Libraries Stylesheet -->
+
+ <link href="lib/animate/animate.min.css" rel="stylesheet">
+
+ <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+ <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+
+
+ <!-- Customized Bootstrap Stylesheet -->
+
+ <link href="" th:href="@{css/bootstrap.min.css}" rel="stylesheet">
+
+
+
+ <!-- Template Stylesheet -->
+
+ <link href="" th:href="@{css/style.css}" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+	<script>
+
+	let coordinates = null;
+
+
+
+	function getLocation() {
+
+	if (navigator.geolocation) {
+
+	navigator.geolocation.getCurrentPosition(showPosition);
+
+	} else {
+
+	document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+
+	}
+
+	}
+
+
+
+	function showPosition(position) {
+
+	coordinates = {
+
+	latitude: position.coords.latitude,
+
+	longitude: position.coords.longitude
+
+	};
+
+	displayLocation();
+
+	}
+
+
+
+	function displayLocation() {
+
+	if (coordinates) {
+
+	const lat = coordinates.latitude;
+
+	const lon = coordinates.longitude;
+
+	const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&accept-language=en`;
+
+
+
+	fetch(url)
+
+	.then(response => response.json())
+
+	.then(data => {
+
+	document.getElementById("demo").innerHTML = ` ${data.display_name}`;
+
+	})
+
+	.catch(error => {
+
+	document.getElementById("demo").innerHTML = `Error: ${error}`;
+
+	});
+
+	}
+
+	}
+
+	</script>
+
+	<script>
+	    const suggestionsList = [
+	        "Neyyattinkara Road Kakkavila", "Thiruvananthapuram", "Sasthamangalam",
+	        "Ambalathara", "Peroorkkada", "Anayara", "Pangappara", "Muttada", "Kowdiar", "Maruthankuzhi",
+	        "Kochuveli", "Bakery Junction", "Vanross", "Prasanthi Nagar", "Nalumukku", "Plamoodu", "Nalumukku",
+	        "Mahathma Gandhi Smaraka Gradnasala", "Pettah", "Aryankuzhi", "Thycaud", "Jagathy",
+	        "Kazhakkuttom", "Kaniyapuram", "Vetturoad", "Vadakkumbhagam", "Palace Rd", "Koonthalloor", "Thiyatar Munnumuku", "Near Dreams Theatre",
+	        "Koonthalloor", "Korani", "Janatha Mukku Railway Cross", "Punnamoodu", "Punnamoodu", "Palachira", "Edava",
+	        "Jawahar Park Rd", "Kilimanoor", "Venjaramoodu", "Pothencode", "Kattayikkonam",
+	        "Kattayikkonam", "Kattayikkonam", "Kattayikkonam", "Kattayikkonam", "Melemukku, Pothencode", "Kovalam, Trivandrum", "Vizhinjam"
+	    ];
+
+	    let recognition;
+	    let isRecognizing = false;
+
+	    // Check if the browser supports Web Speech API
+	    if ('webkitSpeechRecognition' in window) {
+	        recognition = new webkitSpeechRecognition();
+	        recognition.continuous = false;
+	        recognition.interimResults = false;
+	        recognition.lang = 'en-US';
+
+	        recognition.onresult = function(event) {
+	            const transcript = event.results[0][0].transcript;
+	            document.getElementById('searchBar').value = transcript;
+	            handleSearch(transcript);
+	        };
+
+	        recognition.onend = function() {
+	            isRecognizing = false;
+	            document.querySelector('.voice-search-button').classList.remove('recording');
+	        };
+
+	        recognition.onerror = function(event) {
+	            console.error(event.error);
+	        };
+	    }
+
+	    function handleSearch(value) {
+	        showSuggestions(value);
+	        filterContent(value);
+	    }
+
+	    function showSuggestions(value) {
+	        const suggestionsContainer = document.getElementById('suggestions');
+	        suggestionsContainer.innerHTML = '';
+
+	        if (value.trim() === '') {
+	            return;
+	        }
+
+	        const filteredSuggestions = suggestionsList.filter(item => item.toLowerCase().includes(value.toLowerCase()));
+
+	        filteredSuggestions.forEach(suggestion => {
+	            const suggestionItem = document.createElement('div');
+	            suggestionItem.classList.add('suggestion-item');
+	            suggestionItem.textContent = suggestion;
+	            suggestionItem.onclick = () => selectSuggestion(suggestion);
+	            suggestionsContainer.appendChild(suggestionItem);
+	        });
+	    }
+
+	    function selectSuggestion(suggestion) {
+	        const searchBox = document.getElementById('searchBar');
+	        searchBox.value = suggestion;
+	        document.getElementById('suggestions').innerHTML = '';
+	        filterContent(suggestion);
+	    }
+
+	    function filterContent(value) {
+	        const contentItems = document.querySelectorAll('.contain');
+	        contentItems.forEach(item => {
+	            if (item.textContent.toLowerCase().includes(value.toLowerCase())) {
+	                item.style.display = 'block';
+	            } else {
+	                item.style.display = 'none';
+	            }
+	        });
+	    }
+
+	    function toggleVoiceSearch() {
+	        if (isRecognizing) {
+	            recognition.stop();
+	        } else {
+	            recognition.start();
+	            isRecognizing = true;
+	            document.querySelector('.voice-search-button').classList.add('recording');
+	        }
+	    }
+	</script>
+
+	
+
+ <style>
+
+	.suggestions {
+
+	border: 1px solid #ccc;
+
+	border-top: none;
+
+	position: absolute;
+
+	width: 100%;
+
+	max-height: 150px;
+
+	overflow-y: auto;
+
+	background-color: #fff;
+
+	z-index: 1;
+
+	}
+
+
+
+	.suggestion-item {
+
+	padding: 10px;
+
+	cursor: pointer;
+
+	}
+
+
+
+	.suggestion-item:hover {
+
+	background-color: #f0f0f0;
+
+	}
+
+	
+
+	.box {
+
+	display: none;
+
+	width: 250px;
+
+	padding: 15px;
+
+	border: 1px solid #ccc;
+
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+	margin-top: 10px;
+
+	position: fixed;
+
+	top: 100px;
+
+	right:20px ;
+
+	z-index: 9999; 
+
+	
+
+	}
+
+	.location-symbol {
+
+	font-size: 24px;
+
+	cursor: pointer;
+
+	color: crimson;
+
+	
+
+	
+
+	}
+
+	
+
+ /********** Template CSS **********/
+
+.success-message {
+
+	display: none;
+
+	color: green;
+
+	margin-top: 10px;
+
+	}
+
+ /*register*/
+
+.wrapper1{
+
+ width: 380px;
+
+ background: #fff;
+
+ border-radius: 15px;
+
+ box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+
+ position:fixed;
+
+ top:14%;
+
+ left:70%;
+
+ display: none;
+
+ 
+
+}
+
+/*login*/
+
+.wrapper{
+
+ width: 380px;
+
+ background: #fff;
+
+ border-radius: 15px;
+
+ box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+
+ position:fixed;
+
+ top:28%;
+
+ left:70%;
+
+ 
+
+}
+
+.wrapper .title{
+
+ font-size: 35px;
+
+ font-weight: 600;
+
+ text-align: center;
+
+ line-height: 100px;
+
+ color: #fff;
+
+ user-select: none;
+
+ border-radius: 15px 15px 0 0;
+
+ background: linear-gradient(-135deg, #a80808a1, #ff0000);
+
+}
+
+.wrapper1 .title{
+
+ font-size: 35px;
+
+ font-weight: 600;
+
+ text-align: center;
+
+ line-height: 100px;
+
+ color: #fff;
+
+ user-select: none;
+
+ border-radius: 15px 15px 0 0;
+
+ background: linear-gradient(-135deg, #a80808a1, #ff0000);
+
+ }
+
+ .wrapper1 form{
+
+ padding: 10px 30px 50px 30px;
+
+ }
+
+.wrapper form{
+
+ padding: 10px 30px 50px 30px;
+
+}
+
+.wrapper form .field{
+
+ height: 50px;
+
+ width: 100%;
+
+ margin-top: 20px;
+
+ position: relative;
+
+}
+
+.wrapper1 form .field{
+
+ height: 50px;
+
+ width: 100%;
+
+ margin-top: 20px;
+
+ position: relative;
+
+ }
+
+.wrapper form .field input{
+
+ height: 100%;
+
+ width: 100%;
+
+ outline: none;
+
+ font-size: 17px;
+
+ padding-left: 20px;
+
+ border: 1px solid lightgrey;
+
+ border-radius: 25px;
+
+ transition: all 0.3s ease;
+
+}
+
+.wrapper1 form .field input{
+
+ height: 100%;
+
+ width: 100%;
+
+ outline: none;
+
+ font-size: 17px;
+
+ padding-left: 20px;
+
+ border: 1px solid lightgrey;
+
+ border-radius: 25px;
+
+ transition: all 0.3s ease;
+
+ }
+
+.wrapper form .field input:focus,
+
+form .field input:valid{
+
+ border-color: #4158d0;
+
+}
+
+.wrapper1 form .field input:focus,
+
+form .field input:valid{
+
+ border-color: #4158d0;
+
+}
+
+.wrapper form .field label{
+
+ position: absolute;
+
+ top: 50%;
+
+ left: 20px;
+
+ color: #999999;
+
+ font-weight: 400;
+
+ font-size: 17px;
+
+ pointer-events: none;
+
+ transform: translateY(-50%);
+
+ transition: all 0.3s ease;
+
+}
+
+.wrapper1 form .field label{
+
+ position: absolute;
+
+ top: 50%;
+
+ left: 20px;
+
+ color: #999999;
+
+ font-weight: 400;
+
+ font-size: 17px;
+
+ pointer-events: none;
+
+ transform: translateY(-50%);
+
+ transition: all 0.3s ease;
+
+ }
+
+form .field input:focus ~ label,
+
+form .field input:valid ~ label{
+
+ top: 0%;
+
+ font-size: 16px;
+
+ color: #4158d0;
+
+ background: #fff;
+
+ transform: translateY(-50%);
+
+}
+
+form .field input[type="submit"]{
+
+ color: #fff;
+
+ border: none;
+
+ padding-left: 0;
+
+ margin-top: -10px;
+
+ font-size: 20px;
+
+ font-weight: 500;
+
+ cursor: pointer;
+
+ background: linear-gradient(-135deg, #a80808a1, #ff0000);
+
+ transition: all 0.3s ease;
+
+}
+
+form .field input[type="submit"]:active{
+
+ transform: scale(0.95);
+
+}
+
+form .signup-link{
+
+ color: #262626;
+
+ margin-top: 20px;
+
+ text-align: center;
+
+}
+
+form .pass-link a,
+
+form .signup-link a{
+
+ color: #970202;
+
+ text-decoration: none;
+
+}
+
+form .pass-link a:hover,
+
+form .signup-link a:hover{
+
+ text-decoration: underline;
+
+}
+
+/*login button*/
+
+p.close-btn {
+
+ position: absolute;
+
+ top: 0px;
+
+ right: 10px;
+
+ border: none;
+
+ cursor: pointer;
+
+} 
+
+:root {
+
+ --primary: #F56582;
+
+ --secondary: #0B2154;
+
+ --light: #F2F2F2;
+
+ --dark: #111111;
+
+}
+
+
+
+.fw-medium {
+
+ font-weight: 600 !important;
+
+}
+
+
+
+.back-to-top {
+
+ position: fixed;
+
+ display: none;
+
+ left: 30px;
+
+ bottom:50px;
+
+ z-index: 99; 
+
+}
+
+/*** Button ***/
+
+.btn {
+
+ font-weight: 500;
+
+ text-transform: uppercase;
+
+ transition: .5s;
+
+}
+
+
+
+.btn.btn-primary,
+
+.btn.btn-secondary {
+
+ color: #FFFFFF;
+
+}
+
+
+
+.btn-square {
+
+ width: 38px;
+
+ height: 38px;
+
+ 
+
+}
+
+
+
+.btn-sm-square {
+
+ width: 32px;
+
+ height: 32px;
+
+}
+
+
+
+.btn-lg-square {
+
+ width: 48px;
+
+ height: 48px;
+
+}
+
+
+
+.btn-square,
+
+.btn-sm-square,
+
+.btn-lg-square {
+
+ padding: 0;
+
+ display: flex;
+
+ align-items: center;
+
+ justify-content: center;
+
+ font-weight: normal;
+
+ border-radius: 2px;
+
+}
+
+/*** Navbar ***/
+
+.navbar .dropdown-toggle::after {
+
+ border: none;
+
+ content: "\f107";
+
+ font-family: "Font Awesome 5 Free";
+
+ font-weight: 900;
+
+ vertical-align: middle;
+
+ margin-left: 8px;
+
+ position:fixed;
+
+ top:0;
+
+}
+
+
+
+.navbar-light .navbar-nav .nav-link {
+
+ margin-right: 30px;
+
+ padding: 15px 0;
+
+ color: #FFFFFF;
+
+ font-size: 15px;
+
+ text-transform: uppercase;
+
+ outline: none;
+
+}
+
+nav{
+
+ position:fixed;
+
+ top:0;
+
+	
+
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+
+.navbar-light .navbar-nav .nav-link.active {
+
+ color: var(--primary);
+
+}
+
+
+
+@media (max-width: 991.98px) {
+
+ .navbar-light .navbar-nav .nav-link {
+
+ margin-right: 0;
+
+ padding: 10px 0;
+
+ }
+
+
+
+ .navbar-light .navbar-nav {
+
+ border-top: 1px solid #EEEEEE;
+
+ }
+
+}
+
+
+
+.navbar-light .navbar-brand,
+
+.navbar-light a.btn {
+
+ height: 75px;
+
+}
+
+
+
+.navbar-light .navbar-nav .nav-link {
+
+ color: var(--dark);
+
+ font-weight: 500;
+
+}
+
+.navbar-light.sticky-top {
+
+ top: -100px;
+
+ transition: .5s;
+
+}
+
+
+
+@media (min-width: 992px) {
+
+ .navbar .nav-item .dropdown-menu {
+
+ display: block;
+
+ border: none;
+
+ margin-top: 0;
+
+ top: 150%;
+
+ opacity: 0;
+
+ visibility: hidden;
+
+ transition: .5s;
+
+ }
+
+ .navbar .nav-item:hover .dropdown-menu {
+
+ top: 100%;
+
+ visibility: visible;
+
+ transition: .5s;
+
+ opacity: 1;
+
+ }
+
+}
+
+
+
+.containerss {
+
+ display: flex;
+
+ flex-direction: column; /* Mobile first: Stack elements vertically */
+
+ width: 100%; /* Adjusted to 100% to utilize full width */
+
+}
+
+
+
+/* Add spacing above the sidebar and advertisement */
+
+.sidebar {
+
+ margin-top: 20px; /* Add space above sidebar */
+
+ width: 100%; /* Full width on mobile */
+
+ background-color: #fff;
+
+ padding: 20px;
+
+ box-shadow: 0 5px rgba(0, 0, 0, 0.1);
+
+ height: auto; /* Allow height to adjust based on content */
+
+ overflow: auto;
+
+ position: relative; /* Normal flow on mobile */
+
+ left: 0;
+
+}
+
+
+
+.sidebar h3 {
+
+ padding-top: 30px;
+
+ color: crimson;
+
+ font-size: 24px;
+
+ font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+}
+
+
+
+/* Add spacing above the advertisement */
+
+.advertisement {
+
+ margin-top: 20px; /* Add space above advertisement */
+
+ width: 100%;
+
+ background-color: #f4f4f4;
+
+ padding: 10px;
+
+ box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+ margin-bottom: 20px;
+
+}
+
+.search-container {
+
+ display: flex;
+
+ align-items: center;
+
+ position: relative;
+
+ width: 250px;
+
+ margin-bottom: 20px;
+
+ }
+
+.search-container label {
+
+ 
+
+	margin-top: 30px;
+
+ color: crimson; /* Red color */
+
+}
+
+.sidebar input[type=text] {
+
+ flex: 1;
+
+ padding: 10px;
+
+
+
+ border-radius: 5px;
+
+ outline: none;
+
+}
+
+.search-container button {
+
+ position: absolute;
+
+ margin-left: 30px;
+
+ 
+
+ padding: 10px;
+
+ border: none;
+
+ background: crimson; /* Red background */
+
+ color: white; /* White text */
+
+ cursor: pointer;
+
+}
+
+.search-container button:hover {
+
+ background: crimson; /* Darker red on hover */
+
+}
+
+
+
+.sidebar ul {
+
+ list-style: none;
+
+ padding: 0;
+
+}
+
+
+
+.sidebar ul li {
+
+ margin-bottom: 10px;
+
+}
+
+
+
+.content {
+
+ width: 100%;
+
+ padding: 20px;
+
+ overflow: auto;
+
+ margin-left: 0;
+
+ position: relative;
+
+ top: 0;
+
+}
+
+
+
+.business-card {
+
+ background-color: #fff;
+
+ border-radius: 8px;
+
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+ display: flex;
+
+ flex-direction: column; /* Stack elements on mobile */
+
+ width: 100%;
+
+ overflow: hidden;
+
+ margin-bottom: 20px;
+
+ padding: 10px;
+
+}
+
+
+
+.business-image img {
+
+ width: 100%;
+
+ height: auto;
+
+ object-fit: cover;
+
+}
+
+
+
+.business-details {
+
+ padding: 20px;
+
+ flex-grow: 1;
+
+}
+
+
+
+.business-header h2 {
+
+ margin: 0;
+
+ font-size: 24px;
+
+}
+
+
+
+.location {
+
+ color: #666;
+
+}
+
+
+
+.business-actions {
+
+ margin-top: 20px;
+
+}
+
+
+
+.business-actions button {
+
+ background-color: crimson;
+
+ color: white;
+
+ border: none;
+
+ padding: 10px 20px;
+
+ border-radius: 5px;
+
+ cursor: pointer;
+
+ font-size: 16px;
+
+}
+
+
+
+/* Responsive adjustments for larger screens */
+
+@media (min-width: 768px) {
+
+ .containerss {
+
+ flex-direction: row; /* Switch to row layout for larger screens */
+
+ }
+
+ .sidebar {
+
+ width: 20%; /* Adjusted width */
+
+ height: 100vh; /* Fixed height */
+
+ position: fixed;
+
+ top: 20px; /* Add space above sidebar */
+
+ }
+
+ .content {
+
+ width: 55%;
+
+ margin-left: 20%;
+
+ position: relative;
+
+ top: 20px; /* Add space above content */
+
+ }
+
+ .advertisement {
+
+ width: 300px;
+
+ position: fixed;
+
+ right: 0;
+
+ top: 20px; /* Add space above advertisement */
+
+ height: 100vh;
+
+ overflow-y: auto;
+
+ margin-right: 35px;
+
+	/* Adjust the width as per your layout */
+
+	background-color: #f4f4f4; /* Optional: Add a background color */
+
+	padding: 10px; /* Optional: Add padding */
+
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); 
+
+ }
+
+}
+
+
+
+@media (min-width: 992px) {
+
+ .advertisement {
+
+ width: 20%;
+
+ }
+
+}
+
+
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+
+.advertisement::-webkit-scrollbar {
+
+ display: none;
+
+}
+
+.advertisement {
+
+ -ms-overflow-style: none;
+
+ scrollbar-width: none;
+
+}
+
+aside.advertisement {
+
+ height:80vh; /* Ensure the advertisement sidebar covers the full height of the viewport */
+
+ 
+
+ right: 0;
+
+ top: 100px;
+
+ overflow-y: auto; /* Add scrollbar if advertisement content exceeds viewport height */
+
+ margin-right: 35px;
+
+
+
+}
+
+aside.advertisement::-webkit-scrollbar {
+
+ display: none;
+
+}
+
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+
+aside.advertisement {
+
+ -ms-overflow-style: none; /* IE and Edge */
+
+ scrollbar-width: none; /* Firefox */
+
+}
+
+
+
+.second-video {
+
+ height: 200px; /* Adjust the height as needed */
+
+ object-fit: cover; /* Ensure the video covers the entire space */
+
+}
+
+
+
+.ad-image {
+
+ width: 100%;
+
+ display: block; /* Ensures the image takes the full width and behaves like a block element */
+
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+
+ color: var(--light);
+
+}
+
+a
+
+{
+
+ text-decoration: none;
+
+ color: gray;
+
+ font-size: 16px;
+
+	} 
+
+	a:hover{
+
+	color: crimson;
+
+	}
+
+	/* Search style*/
+
+	.search-wrapper {
+
+	position: relative;
+
+	width: 300px;
+
+	
+
+	}
+
+	.search-wrapper:focus{
+
+	border:1px solid red;
+
+	}
+
+
+
+	/* Style for the search bar */
+
+	
+	/* Style for the search bar */
+		          #searchBar {
+		             border: none;
+					 width: 65%;
+					 outline: 0;
+					  
+		          }
+				  .search-wrapper{
+					width: 18%;
+							              padding: 10px 20px 10px 40px;
+							              font-size: 16px;
+							              transition: all 0.3s ease-in-out;
+										 
+							             border:1px solid crimson;
+										 border-radius: 25px;
+				  }
+
+
+	
+
+ /* Placeholder text style */
+
+	
+
+	#searchBar::placeholder {
+
+	color: #aaa;
+
+	opacity: 1;
+
+	}
+
+
+
+	/* Search icon style */
+
+	.search-icon {
+
+	position: absolute;
+
+	left: 10px;
+
+	top: 50%;
+
+	transform: translateY(-50%);
+
+	font-size: 18px;
+
+	color: #888;
+
+	}	
+
+	
+
+	
+
+	.card-container {
+
+	display: grid;
+
+	grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+
+	gap: 20px;
+
+	padding: 10px;
+
+	/* margin: 0 10px; */
+
+	margin-right:2.5em;
+
+	margin-left: 2.5em;
+
+	}
+
+
+
+	.card {
+
+	background-color: #fff;
+
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+	border-radius: 10px;
+
+	overflow: hidden;
+
+	text-align: left;
+
+	transition: transform 0.2s, box-shadow 0.2s;
+
+	}
+
+
+
+	.card:hover {
+
+	transform: translateY(-10px);
+
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+	}
+
+
+
+	.card img {
+
+	width: 100%;
+
+	height: 200px;
+
+	object-fit: cover;
+
+	}
+
+
+
+	.card figcaption {
+
+	padding: 15px;
+
+	
+
+	}
+
+
+
+	.card h3 {
+
+	margin: 0;
+
+	padding: 15px;
+
+	background-color: #A93226;
+
+	color: white;
+
+	text-align: center;
+
+	position: relative;
+
+	}
+
+
+
+	.card h3 i {
+
+	margin-right: 10px;
+
+	}
+
+	.location-icon{
+
+	color: #A93226;
+
+	}
+
+
+
+	.view-more-button {
+
+	grid-column: span 4; /* Place the button across the entire row */
+
+	margin: 20px auto;
+
+	padding: 10px 20px;
+
+	font-size: 16px;
+
+	color: #fff;
+
+	background-color: #A93226;
+
+	border: none;
+
+	border-radius: 5px;
+
+	cursor: pointer;
+
+	transition: background-color 0.3s;
+
+	}
+
+
+
+	.view-more-button:hover {
+
+	background-color: #922B21;
+
+	}
+
+
+
+	.hidden {
+
+	display: none;
+
+	}
+
+
+
+	#container {
+
+	max-height: 400px;
+
+	overflow-y: auto;
+
+	margin-top: 20px;
+
+	padding-right: 10px; /* To make space for the scrollbar */
+
+	}
+
+	
+
+	.firstheading{
+
+	color:crimson;
+
+	font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+	}
+
+	#workshop{
+
+	height:170.61px;
+
+	width:207.49px;
+
+	}
+
+	
+
+	
+
+/*Workshop details */
+
+
+
+.hotel-card {
+
+ border-radius: 15px;
+
+ overflow: hidden;
+
+ width: 350px; /* Maintained width */
+
+ margin: auto;
+
+ }
+
+
+
+ .hotel-card .card-img-top {
+
+ display: block;
+
+ margin: 0 auto; /* Center the image */
+
+ max-height: 150px; /* Limit the height of the image */
+
+ object-fit: cover; /* Ensure the image covers the area well */
+
+ }
+
+
+
+ .hotel-card .card-body {
+
+ padding: 10px; /* Reduced padding to decrease the height */
+
+ }
+
+
+
+ .modal-backdrop {
+
+ backdrop-filter: blur(5px); /* Blur effect on background */
+
+ }
+ 
+ .voice-search-button {
+ 	   margin-left: 25%;
+cursor: pointer;
+ 							       }
+								   .close-btn {
+								       position: absolute;
+								       top: 10px;
+								       right: 20px;
+								      
+								       color: rgb(128, 128, 128);
+								       border: none;
+								       padding: 5px 10px;
+								       cursor: pointer;
+								       font-size: 16px;
+								       z-index: 1002;
+								   }
+
+								   .close-btn:hover {
+								       background-color: crimson;
+								   	color: white;
+								   }
+ </style>
+
+	
+ <script>
+ 			function displayDetails(){
+ 			document.getElementById("details").style.display = "none";
+ 				
+ 			}
+ 		</script>
+	
+
+	<!--phone number-->
+
+	<script>
+
+	function callNumber(phoneNumber) {
+
+	window.location.href = 'tel:' + phoneNumber;
+
+	}
+
+	</script>
+
+	
+
+	<script>
+
+	window.watsonAssistantChatOptions = {
+
+	integrationID: "5299c7b6-e581-488c-b4dc-2f54b74dc866", // The ID of this integration.
+
+	region: "au-syd", // The region your integration is hosted in.
+
+	serviceInstanceID: "e73d4655-cb3b-41d2-bd37-bc7c399d424e", // The ID of your service instance.
+
+	onLoad: async (instance) => { await instance.render(); }
+
+	};
+
+	setTimeout(function(){
+
+	const t=document.createElement('script');
+
+	t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+
+	document.head.appendChild(t);
+
+	});
+
+	</script>
+
+	
+
+	<script>
+
+	// JavaScript to collapse the navbar when a link is clicked
+
+	document.addEventListener("DOMContentLoaded", function () {
+
+	var navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+	var navbarCollapse = document.querySelector('.navbar-collapse');
+
+
+
+	navLinks.forEach(function (link) {
+
+	link.addEventListener('click', function () {
+
+	if (window.innerWidth < 992) { // Only collapse for small screens
+
+	navbarCollapse.classList.remove('show');
+
+	}
+
+	});
+
+	});
+
+	});
+
+
+
+	</script>
+
+	
+
+	
+
+	
+
+	
+
+	<!--	<script>
+
+	let mybutton = document.getElementById("myBtn");
+
+	// When the user scrolls down 20px from the top of the document, show the button
+
+	window.onscroll = function() {scrollFunction()};
+
+	function scrollFunction() {
+
+	if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+
+	mybutton.style.display = "block";
+
+	} else {
+
+	mybutton.style.display = "none";
+
+	}
+
+	}
+
+
+
+	// When the user clicks on the button, scroll to the top of the document
+
+	function topFunction() {
+
+	document.body.scrollTop = 0; // For Safari
+
+	document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+	}
+
+	</script>
+
+	-->
+
+</head>
+
+
+
+
+
+	<script>
+
+	function openbox(){
+
+	var box=document.getElementById('box');
+
+	if(box.style.dispaly='none'){
+
+	box.style.display='block';
+
+	}
+
+	else{
+
+	box.style.display='none';
+
+	}
+
+	}
+
+	
+
+
+
+	function closebtn() {
+
+	document.getElementById('box').style.display = 'none';
+
+	}
+
+	</script>
+
+	
+
+	
+
+ <!-- Navbar Start -->
+
+ <nav class="navbar navbar-fixed-top navbar-expand-lg bg-white navbar-light shadow sticky-top p-0" style="position: fixed; top: 0; width: 100%;">
+
+ <a href="" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+
+ <img class="w-100" src="" th:src ="@{img/log.gif}" alt="Image" style="width: 2.5cm;height: 2.5cm; border-radius: 50%;">
+
+ <h2 class="m-0 firstheading" >WorkShops Near Me</h2>
+
+	
+
+ </a>
+
+ <div class="search-wrapper">
+     <i class="fas fa-search search-icon" style="color: crimson;"></i>
+     <input type="text" id="searchBar" placeholder="Search..." oninput="handleSearch(this.value)" class="search-bar">
+     <i class="fas fa-microphone voice-search-button" onclick="toggleVoiceSearch()" style="color: crimson;"></i>
+     <div id="suggestions" class="suggestions" style="border: none;"></div>
+ </div>
+
+ <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+
+ <span class="navbar-toggler-icon"></span>
+
+ </button>
+
+	<div class="collapse navbar-collapse" id="navbarCollapse">
+
+	<ul class="navbar-nav ms-auto p-4 p-lg-0">
+
+	<li class="nav-item">
+
+	<a class="nav-link" href="/">Home</a>
+
+	</li>
+
+	<li class="nav-item">
+
+	<a class="nav-link" href="/#about">About</a>
+
+	</li>
+
+	<li class="nav-item">
+
+	<a class="nav-link" href="/#service">Services</a>
+
+	</li>
+
+	
+
+	<li class="nav-item">
+
+	<a class="nav-link" href="/#book">Booking</a>
+
+	</li>
+
+	<li class="nav-item">
+
+	<a class="nav-link" href="/#contact">Contact</a>
+
+	</li>
+
+	
+
+	<li class="nav-item">
+
+ <a class="nav-link" id="clickprofile"><i onclick="openbox();" class="fas fa-address-book" style="font-size:38px;color:red" ></i></a>
+
+ </li>	</li>
+
+	</ul>
+
+	</div>	
+
+	<div class="box bg-light border rounded p-3" id="box">
+
+	<i class="fa fa-close close-btn text-danger" style="font-size: 24px;" onclick="closebtn();" id="closeBoxBtn"></i>
+
+	<p sec:authentication="principal.username" class="mb-0"><b>User</b></p>
+
+	<i id="locationSymbol" class="fas fa-map-marker-alt location-symbol" onclick="getLocation()"></i>
+
+	<p id="demo"></p>
+
+	<ul class="nav nav-pills nav-fill">
+
+	<li class="nav-item" sec:authorize="isAuthenticated()">
+
+	<a class="nav-link" th:href="@{/logout}"><b>Logout</b></a>
+
+	</li>
+
+	</ul>
+
+	</div>
+
+ </nav><br><br>
+
+ 
+
+ <!-- Navbar End -->
+
+	
+
+
+
+	<div class="containerss">
+
+	<aside class="sidebar ">
+
+	<div class="filter">
+
+	<h3>SELECT LOCALITY</h3>
+
+	
+
+	<ul>
+
+	<li class="workshop-item" > <a href="#trivandrum">Trivandrum</a></li>
+
+	<li class="workshop-item" ><a href="#palayam">Palayam</a></li>
+
+	<li class="workshop-item"><a href="#kazhakkuttom">Kazhakkuttom</a></li>
+
+	<li class="workshop-item" ><a href="#attingal">Attingal</a></li>
+
+	<li class="workshop-item"><a href="#varkala">Varkala</a></li>
+
+	<li class="workshop-item" ><a href="#kilimanoor">Kilimanoor</a></li>
+
+	<li class="workshop-item" ><a href="#venjaramoodu">Venjaramoodu</a></li>
+
+	<li class="workshop-item" ><a href="#pothencode">Pothencode</a></li>
+
+	<li class="workshop-item" ><a href="#kovalam">Kovalam</a></li>
+
+	<li class="workshop-item"><a href="#vizhinjam">Vizhinjam</a></li>
+
+	</ul>
+
+	</div>
+
+	</aside>
+
+
+
+	<main class="content ">
+		
+		
+		    
+
+		 
+
+
+	<div id="trivandrum">
+
+	<h1 class="contain">Trivandrum</h1>
+
+	<br>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/mycar.avif}" alt="Business Image" id="workshop" class="img-fluid" data-toggle="modal" data-target="#mycar">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>My Car Motors and Spares</h2>
+
+	</div>
+
+	<span class="location">Neyyattinkara Road Kakkavila, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/9fMcSJfhjWxj1UZ26" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9724901286')">9724901286</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm1.png}" alt="Business Image" id="workshop" class="img-fluid" height="100px" data-toggle="modal" data-target="#indigo">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Indigoo International</h2>
+
+	</div>
+
+	<span class="location">Sasthamangalam, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/9fMcSJfhjWxj1UZ26" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8460409559')">8460409559</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	
+
+	
+
+	<hr class="contain">
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm2.png}" alt="Business Image" id="workshop" class="img-fluid" height="100px" data-toggle="modal" data-target="#rvs">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>RVS MOTO HUB</h2>
+
+	</div>
+
+	<span class="location">Ambalathara, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/6sRCZCEatkaCVZtV9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8401873091')">8401873091</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm3.png}" alt="Business Image" id="workshop" class="img-fluid" height="100px">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Moto Lab</h2>
+
+	</div>
+
+	<span class="location">Peroorkkada, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/VkVzfvzzndjT6WEU9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7490028201')">7490028201</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">
+
+	<!--main div section-->
+
+	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm4.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>M Tech Motors </h2>
+
+	</div>
+
+	<span class="location">Anayara, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/pJRCv1LsLedmMTmx9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9054453952')">9054453952</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>	
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm5.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Car Cardiac Care </h2>
+
+	</div>
+
+	<span class="location">Pangappara, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/FimyywnqUzhNSkfc7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942680953')">7942680953</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>	
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm6.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Real Touch Automobiles</h2>
+
+	</div>
+
+	<span class="location">Muttada, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/VJXg6SJsyyVSiTYs7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9054772942')">9054772942</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>	
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm7.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Imperial </h2>
+
+	</div>
+
+	<span class="location">Kowdiar, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/T1GWdgyWHTfe7bcQA" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947137888')">7947137888</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>	
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm8.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Sm Car Beauty Clinic </h2>
+
+	</div>
+
+	<span class="location">Maruthankuzhi, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/cF9bxR2MSS9kZ1Hq9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8401166286')">8401166286</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>	
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/tvm9.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Kelester Engineers </h2>
+
+	</div>
+
+	<span class="location">Kochuveli, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/miwtA3PcdW7HqPmf8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9054453952')">9054453952</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>	
+
+	<hr class="contain">	
+
+	
+
+	<!-- close -->
+
+	<!-- section2 -->
+
+	
+
+	<div id="palayam">
+
+	
+
+	<h1 class="contain">Palayam</h1>
+
+	<br>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam1.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Kaila's 2 Wheeler Workshop</h2>
+
+	</div>
+
+	<span class="location">Bakery Junction, Vanross, Palayam, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/aec29uwhbeadad4q7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9447324941')">9447324941</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam2.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Elegant Workshop</h2>
+
+	</div>
+
+	<span class="location">Vanross, Palayam, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/wvU1QEM9nTRyrTHH9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8460409558')">8460409558</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam3.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Sree padam Two wheeler Workshop</h2>
+
+	</div>
+
+	<span class="location">Prasanthi Nagar, Pazhavangadi, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/EBj6trfvrxajYsNb8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9048114136')">9048114136</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam4.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Sivakumar's workshop</h2>
+
+	</div>
+
+	<span class="location">Nalumukku, Palkulangara, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/zC6HJgB6yK5qTnLC7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7490028201')">7490028201</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<!--main div section-->
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam5.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>M Tech Motors </h2>
+
+	</div>
+
+	<span class="location">Plamoodu - Thekkamoodu Rd, Pattom, Thiruvananthapuram,</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/zC6HJgB6yK5qTnLC7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9054453952')">9054453952</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+</div>
+
+</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam6.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Chandran's Workshop</h2>
+
+	</div>
+
+	<span class="location"> Nalumukku, Kaithamukku, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/YS3LZxhJgTaEegF49" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9747338018')">9747338018</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam5.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Kannan Car Workshop </h2>
+
+	</div>
+
+	<span class="location">mahathma gandhi smaraka gradnasala, Pettah, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/Bg7Tcunu2dt3gP4F8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9054772942')">9054772942</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam8.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Vinod Workshop</h2>
+
+	</div>
+
+	<span class="location">Aryankuzhi, Kamaleshwaram, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/W3Tju78PYhVaUJ3d7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9895758037')">9895758037</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/palayam9.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>MySyara - Car Care on your schedule </h2>
+
+	</div>
+
+	<span class="location">Thycaud,Jagathy, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/TvXgcJtvu4wfmcYM7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8943344334')">8943344334</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	<!-- close -->
+
+	<!--section2-->
+
+	<div id="kazhakkuttom">
+
+	<h1 class="contain">Kazhakkuttom</h1>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom1.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2 >Gopan's Bicycles Service</h2>
+
+	</div>
+
+	<span class="location">Kazhakkuttom, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/jCJdkg4bX34vtzfu7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8043355334')">8043355334</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom2.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Bosch car workshop</h2>
+
+	</div>
+
+	<span class="location">Kazhakkoottam, Kaniyapuram, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/pchZVfRGABDMEPsy9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7590618201')">7590618201</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom3.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Perfect Maruti Service Center</h2>
+
+	</div>
+
+	<span class="location">Kazhakkuttom, Kaniyapuram, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/7SQasuDf58WMPVeEA" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9895823286')">9895823286</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom5.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Surabhi Autos and two wheeler workshop</h2>
+
+	</div>
+
+	<span class="location">Kazhakkuttom, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/8LUj3FzXc82rpjeU6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7490028201')">7490028201</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+
+
+	
+
+	
+
+
+
+<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom6.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+<div class="business-details">
+
+<div class="business-header">
+
+	<h2>Concept Colours</h2>
+
+</div>
+
+	<span class="location">Vetturoad, Kazhakkuttom, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/PwJe3M5dYgy4Wv3fA" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9048990009')">9048990009</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	
+
+
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom7.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Sb Two Weeler Workshop </h2>
+
+	</div>
+
+	<span class="location">Kazhakuttam, Vadakkumbhagam, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/HknG7czmMKexnMtV8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9490028101')">9490028101</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kazhakkuttom8.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Kumar Auto Works </h2>
+
+	</div>
+
+	<span class="location">Kazhakkuttom,Vadakkumbhagam,Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/gLqNxwB9iSnBhNpx5" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9446111766')">9446111766</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	<!-- section3 -->
+
+	<div id="attingal">
+
+	
+
+	<h1 class="contain">Attingal</h1>
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl1.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Friends Automobiles And Industrial Workshop</h2>
+
+	</div>
+
+	<span class="location">Attingal, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/ToGdqMiyC3UrPmXk8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8137864987')">8137864987</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl2.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Saras Car A/C Workshop</h2>
+
+	</div>
+
+	<span class="location">Palace Rd, Attingal,Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/HEHdgcJ299xk4xr9A" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9447401631')">9447401631</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl3.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Ganga Two Wheeler Workshop</h2>
+
+	</div>
+
+	<span class="location">Attingal, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/VzbZn6JRW3ZEusdRA" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9447272068')">9447272068</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl4.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Saroj Two Wheeler Workshop</h2>
+
+	</div>
+
+	<span class="location">Attingal, Koonthalloor, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/NeEWBPUZG3ifrULr8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9095648102')">9095648102</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl5.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Mariyam all car service center</h2>
+
+	</div>
+
+	<span class="location">thiyatar munnumuku,Koonthalloor,Attingal, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/aCKrMqzw6DZeDZpJA" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7356487875')">7356487875</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl6.jpg}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>The Marshal Garage</h2>
+
+	</div>
+
+	<span class="location">near Dreams Theatre, Moonnumukku,Koonthalloor,Attingal, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/oriSRKqxEYBPQ5Ck9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8590750055')">8590750055</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/atgl7.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Friday Club</h2>
+
+	</div>
+
+	<span class="location">Korani,Attingal, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/8Y1jhD5Es4Pwsdgk6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9995900801')">9995900801</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	</div>
+
+	<!-- section4 -->
+
+	<div id="varkala">
+
+	<h1 class="contain">Varkala</h1>
+
+	<br>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala1.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Royal Autox</h2>
+
+	</div>
+
+	<span class="location">Janatha Mukku Railway Cross, Varkala Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/TFAkLSd6RH1Fi5px6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947412353')">7947412353</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala2.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Sree Mookambika Two Wheeler Works</h2>
+
+	</div>
+
+	<span class="location">Varkala,Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/EQeRSRqSkamNgzSK7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947420806')">7947420806</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala3.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>MS Two Wheeler Works</h2>
+
+	</div>
+
+	<span class="location">Punnamoodu, Varkala Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/ysFSPN7dkztbij939" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947428485')">7947428485</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<!--main div section-->
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala4.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Marikar Honda Service Center</h2>
+
+	</div>
+
+	<span class="location"> Palachira,varkala, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/iFnerREFruzrQkC69" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947423383')">7947423383</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala5.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Petrol Issues Garage </h2>
+
+	</div>
+
+	<span class="location"> Palachira,Varkala,Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/iFnerREFruzrQkC69" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942699861')">7942699861</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala6.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Jackson two wheeler garage </h2>
+
+	</div>
+
+	<span class="location"> Edava, Varkala, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/KigzSjDkAd1q42QBA" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947118024')">7947118024</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala7.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Maruti Suzuki Authorised Service</h2>
+
+	</div>
+
+	<span class="location"> Varkala, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/Nt1y9ckkJftaz2RX6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9072484991')">9072484991</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/varkala8.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Radhakrishna Motor Workshop</h2>
+
+	</div>
+
+	<span class="location">Jawahar Park Rd, Varkala, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/XHkbpR3EidQLs24R8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9895758037')">9895758037</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	</div>
+
+	<!-- section 5-->
+
+	<div id="kilimanoor">
+
+	<h1 class="contain">Kilimanoor</h1>
+
+	
+
+	<br>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kili1.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Focus Welding Workshop</h2>
+
+	</div>
+
+	<span class="location">Kilimanoor, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/XHkbpR3EidQLs24R8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947116241')">7947116241</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<hr class="contain">	
+
+	<!-- section 6-->
+
+	<!--Venjaramood Start-->
+
+	<div id="venjaramoodu">
+
+	<br>
+
+	<h1 class="contain">venjaramoodu</h1>
+
+	<br>
+
+	
+
+	<div id="venjaramoodu">
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/venjara1.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>T V S Car Repair</h2>
+
+	</div>
+
+	<span class="location">Venjaramoodu, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/pcCBn4zHo23fPAr99" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947415853')">7947415853</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	
+
+	
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/venjara2.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>H.K.Motors</h2>
+
+	</div>
+
+	<span class="location">Venjaramoodu,Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/pcCBn4zHo23fPAr99" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947118573')">7947118573</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/venjara3.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Venus Motors</h2>
+
+	</div>
+
+	<span class="location">Venjaramoodu,Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/3NxesSRuFTtqStHi9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947112369')">7947112369</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/venjara4.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Tata Motors</h2>
+
+	</div>
+
+	<span class="location">Venjaramoodu, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/Br6sCA2cqfjUDvMY8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8590925723')">8590925723</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/venjara5.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Vineeth Paints</h2>
+
+	</div>
+
+	<span class="location">Venjaramoodu, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/boLxcLpgBbRGZWv1A" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('8590925723')">8590925723</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	</div>
+
+	<!--Venjaramood End-->
+
+	
+
+	<!-- section7 -->
+
+	<div id="pothencode">
+
+	<br>
+
+	<h1 class="contain">Pothencode</h1>
+
+	<br>
+
+	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode1.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Royal Drive Car Accessories</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/4PTr2HTae2Z7bTCr6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942680796')">7942680796</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode2.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>German Motors</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/8K81H3pKz7SDVzjt6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942691272')">7942691272</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode3.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Vinayaka Service Station</h2>
+
+	</div>
+
+	<span class="location">Kattayikkonam, thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/aJLFHNuuxMh2c5LS9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942692415')">7942692415</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode4.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Germantech Skoda Service Center</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/cGqdGZfUA2bd71nE6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942693547')">7942693547</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode5.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>D S Maruti Service Center</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/Dk22u31GXmjGnA9z8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7942679904')">7942679904</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode6.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Aaramam Service Station</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/YQtpdrdKrMChFPUB9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947418386')">7947418386</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode7.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Vision Auto Center</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/ug932VNu6wwR8cbK8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947418386')">7947418386</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode8.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Car Cool Car Ac And Auto Electrical Works</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/v4zpomyffaHXNtz18" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947117660')">7947117660</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode9.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Bismi Car Service Centre</h2>
+
+	</div>
+
+	<span class="location">Pothencode, Thiruvananthapuram </span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/iPurmZU9GdjapDyX6" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('79474111654')">79474111654</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/pothencode10.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Salamath Service Station</h2>
+
+	</div>
+
+	<span class="location">Melemukku, Pothencode, Thiruvananthapuram</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/DceE7L9C7GGJtUsx7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947418386')">7947418386</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<!-- section 8-->
+
+	<div id="kovalam">
+
+	<br>
+
+	<h1 class="contain">Kovalam</h1>
+
+	<br>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kovalam1.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>Nithya Workshop</h2>
+
+	</div>
+
+	<span class="location">Kovalam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/NTwFEaq4L7uDWn4r7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9633444495')">9633444495</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kovalam2.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>U V P Two Wheeler Works</h2>
+
+	</div>
+
+	<span class="location">Kovalam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/dmTAum7WHkUFUqmW7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9447864177')">9447864177</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/kovalam3.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2> Amme Bhaghavathi</h2>
+
+	</div>
+
+	<span class="location">Kovalam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/NTwFEaq4L7uDWn4r7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9895623303')">9895623303</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<!-- section 9-->
+
+	<div id="vizhinjam">
+
+	<br>
+
+	<h1 class="contain">Vizhinjam</h1>
+
+	<br>
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/vizhinjam1.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2> Shiva Sakthi Automobiles</h2>
+
+	</div>
+
+	<span class="location">Vizhinajam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/NTwFEaq4L7uDWn4r7" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947415304')">7947415304</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/vizhinjam2.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2> Ambady Auto Works</h2>
+
+	</div>
+
+	<span class="location">Vizhinajam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/2WqpReU5bjupamWG9" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('7947139616')">7947139616</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/vizhinjam3.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2> Siva Automobiles</h2>
+
+	</div>
+
+	<span class="location">Vizhinajam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/J7dK2f16rev21t6K8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9495831142')">9495831142</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<hr class="contain">	
+
+	<div class="container contain">
+
+	<div class="row">
+
+	<div class="col-md-4">
+
+	<img src="" th:src="@{img/vizhinjam4.png}" alt="Business Image" id="workshop" class="img-fluid">
+
+	</div>
+
+	<div class="col-md-8">
+
+	<div class="business-details">
+
+	<div class="business-header">
+
+	<h2>K G Auto Works</h2>
+
+	</div>
+
+	<span class="location">Vizhinajam, Trivandrum</span>
+
+	<div class="business-actions">
+
+	<a href="https://maps.app.goo.gl/J7dK2f16rev21t6K8" class="location-icon btn btn-outline-primary me-2" target="_blank">
+
+	<img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+
+	</a>
+
+	<button class="phone-btn" onclick="callNumber('9349316327')">9349316327</button>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+	
+	<hr class="contain">
+	<div class="container contain" th:each="user : ${userss}">
+					        <div class="row " >
+					            <div class="col-md-4">
+								<a th:href="@{/main(id=${user.id})}" ><img th:src="@{'/img/' + ${user.image}}" alt="User Image" class="img-fluid" id="workshop" ></a>
+					                
+					            </div>
+
+					            <div class="col-md-8" >
+					                <div class="business-details">
+					                    <div class="business-header">
+					                        <h2 th:text=" ${user.username}"></h2>
+											
+					                    </div>
+
+					                    <span class="location" th:text="${user.location}"></span>
+
+					                    <div class="business-actions">
+					                        <a th:href="${user.mapLocation}" class="location-icon btn btn-outline-primary me-2" target="_blank">
+					                            <img class="img-fluid" src="" th:src="@{img/workshoploc.gif}" alt="" style="width: 40px; height: 40px;">View location
+					                        </a>
+										
+					                        <button class="phone-btn" onclick="callNumber('9724901286')" th:text="${user.contactNumber}" ></button>
+					                    </div>
+										
+					                    <!-- Section to display users -->
+										<br>
+					                </div>
+									
+					            </div>
+								<hr class="contain">
+					        </div>
+							
+							
+							
+							
+
+								</div>
+
+								</div>
+
+								</div>
+
+								</div>
+
+								</div>
+					    </div>
+
+		
+
+	</main><br><br>
+
+	<br><br>
+
+	<aside class="advertisement">
+		<div class="details" id="details">
+												<div th:if="${selectedUser != null}" class="Username-details">
+												        <h2 th:text="${selectedUser.username}"></h2>
+														<button onclick="displayDetails()" class="close-btn">X</button>
+												        <table class="table table-bordered">
+												            
+															
+															<tr>
+																<th>Opening days</th>
+																 <td th:text="${selectedUser.openingDays} "></td>
+															</tr>
+															<tr>
+																<th>Opening Time</th>
+																<td th:text="${selectedUser.openingTime} + am"></td>
+															</tr>
+															<tr>
+																<th>Closing Time</th>
+																<td th:text="${selectedUser.closingTime} + pm"></td>
+															</tr>
+															<tr>
+																<th>Vehicle</th>
+																	 <td >
+																	<ul th:each=" vehicle : ${selectedUser.vehicles}">
+																	<li th:text="${vehicle}"></li>	
+																	</ul>
+																				
+																	 </td>
+																														</tr>
+															</tr>
+																<th>Services</th>
+																<td >
+																	<ul th:each=" service : ${selectedUser.services}">
+																	<li th:text="${service}"></li>	
+																	</ul>
+																																																		
+																</td>
+																</tr>
+												           
+												        </table>
+												    </div>
+											</div>
+
+	<span style="color: darkgray">advertisement</span><br><br>
+
+	<video width="100%" controls autoplay>
+
+	<source src="img/advertise1.mp4" type="video/mp4">
+
+	Your browser does not support the video tag.
+
+	</video><br><br>
+
+	<img src="" class="ad-image"><br><br>
+
+	<video width="100%" controls autoplay class="second-video">
+
+	<source src="img/advertise2.mp4" type="video/mp4">
+
+	Your browser does not support the video tag.
+
+	</video>
+
+	<br><br>
+
+	<video width="100%" controls autoplay>
+
+	<source src="img/workshop.mp4" type="video/mp4">
+
+	Your browser does not support the video tag.
+
+	</video>
+
+	</aside>
+
+	</div>
+
+	
+
+	
+
+
+	
+
+	
+
+	
+	
+	</div>
+
+	
+
+	<!-- Scripts -->
+
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	<!--End Workshop details-->
+
+	
+
+	
+
+	
+
+	
+
+	
+
+ <!-- Back to Top -->
+
+ <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" id="myBtn" style="display: none;"><i class="bi bi-arrow-up"></i></a>
+
+ <!-- JavaScript Libraries -->
+
+ <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+
+ <script src="lib/wow/wow.min.js"></script>
+
+ <script src="lib/easing/easing.min.js"></script>
+
+ <script src="lib/waypoints/waypoints.min.js"></script>
+
+ <script src="lib/counterup/counterup.min.js"></script>
+
+ <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+ <script src="lib/tempusdominus/js/moment.min.js"></script>
+
+ <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+
+ <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+ <!-- Template Javascript -->
+
+ 
+
+ </body>
+
+</html>

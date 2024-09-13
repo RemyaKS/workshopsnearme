@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Workshop Owners</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="icon" type="image/x-icon" href="/img/1234.svg">
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+        }
+
+        .btn-delete {
+            background-color: white;
+            border: 2px solid red;
+            color: red;
+            padding: 8px 13px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn-delete:hover {
+            background-color: crimson;
+            color: white;
+            border: none;
+        }
+
+        .btn-logout {
+            background-color: white;
+            color: red;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px 0;
+            display: block;
+            text-align: center;
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            text-decoration: none;
+            font-size: 20px;
+        }
+
+        .btn-logout:hover {
+            background-color: crimson;
+            color: white;
+            border: 1px solid white;
+            text-decoration: none;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: crimson;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .btn-edit {
+            background-color: white;
+            border: 2px solid red;
+            color: red;
+            padding: 8px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+			margin-bottom: 2px;
+            border-radius: 5px;
+        }
+
+        .btn-edit:hover {
+            background-color: crimson;
+            border: none;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .btn-logout {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            table th, table td {
+                font-size: 14px;
+                padding: 6px;
+            }
+            .btn-delete, .btn-edit {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+        }
+		.logo-image {
+
+										           width: 80%;
+
+										           background-size: center;
+
+										           background-position: center;
+
+										           position: relative;
+												   padding-left: 20px;
+
+										       }
+
+										       .logo-image img {
+
+										           width: 180px;
+
+										           height: 150px;
+
+										          padding-top:20%;
+
+										       }
+											   
+.details{
+	position: absolute;
+	top: 10%;
+	left: 35%;
+	background-color: #f0f0f0;
+	padding:20px;
+	color: rgb(128, 128, 128);
+	width: 40%;
+
+
+	
+	
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+   
+    color: rgb(128, 128, 128);
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1002;
+}
+
+.close-btn:hover {
+    background-color: crimson;
+	color: white;
+}
+
+    </style>
+</head>
+<body>
+	
+	<div class="sidebar">
+	    <div class="logo-image">
+	        <a href="/" target="_blank">
+	            <img id="userImages" src="" th:src="@{img/logo1.png}" alt="User Image">
+	        </a>
+	    </div>
+	    <br>
+	    <h1>Welcome, <span th:text="${username}"></span></h1>
+	    <ul>
+	        <li><a href="/admin">Dashboard</a></li>
+	        <li><a th:href="@{/add-user}">Add Workshop</a></li>
+	        <li><a th:href="@{/users}">View Workshops</a></li>
+	        <li><a th:href="@{/showRequests}">Requests for Call</a></li>
+	    </ul>
+	    <a href="/adminlogin" class="btn-logout">Logout</a>
+	</div>
+
+	<div class="main-content">
+	    <h1>Welcome to the Admin Dashboard</h1>
+	    <h2>Booking Information</h2>
+	    <div class="table-responsive">
+	        <table class="table table-striped table-bordered">
+	            <thead class="thead-dark">
+	                <tr>
+	                    <th>Order Id</th>
+	                    <th>Email</th>
+	                    <th>Phone</th>
+	                    <th>Date</th>
+	                    <th>TimeSlot</th>
+	                    <th>Service</th>
+	                    <th>Workshop Location</th>
+	                    <th>Location</th>
+	                    <th>Status</th>
+	                    <th>Action</th>
+	                </tr>
+	            </thead>
+	            <tbody>
+	                <tr th:each="booking : ${bookings}">
+	                    <td >
+							<a th:href="@{/admin(id=${booking.id})}" th:text="'000' + ${booking.id}"></a>
+						</td>
+	                    <td th:text="${booking.email}"></td>
+	                    <td th:text="${booking.phone}"></td>
+	                    <td th:text="${booking.date}"></td>
+	                    <td th:text="${booking.timeSlot}"></td>
+	                    <td th:text="${booking.service}"></td>
+	                    <td th:text="${booking.workshop}"></td>
+	                    <td th:text="${booking.location}"></td>
+	                    <td th:text="${booking.status}"></td>
+	                    <td>
+	                       
+	                        <a th:href="@{/editBooking/{id}(id=${booking.id})}" class="btn-edit">Edit</a>
+	                        <form th:action="@{/deleteBooking}" method="post" onsubmit="return confirm('Are you sure you want to delete this booking?');" class="d-inline-block">
+	                            <input type="hidden" name="id" th:value="${booking.id}" />
+	                            <button class="btn-delete" type="submit">Delete</button>
+	                        </form>
+	                    </td>
+	                </tr>
+	            </tbody>
+	        </table>
+	    </div>
+
+		<script>
+			function displayDetails(){
+			document.getElementById("details").style.display = "none";
+				
+			}
+		</script>
+		<div class="details" id="details">
+			<div th:if="${selectedBooking != null}" class="booking-details">
+			        <h2>Selected Booking Details</h2>
+					<button onclick="displayDetails()" class="close-btn">X</button>
+			        <table class="table table-bordered">
+			            <tr>
+			                <th>ID</th>
+			                <td th:text="${selectedBooking.id}"></td>
+			            </tr>
+						<tr>
+						    <th>Name</th>
+						    <td th:text="${selectedBooking.name}"></td>
+						</tr>
+			            <tr>
+			                <th>Email</th>
+			                <td th:text="${selectedBooking.email}"></td>
+			            </tr>
+			            <tr>
+			                <th>Phone</th>
+			                <td th:text="${selectedBooking.phone}"></td>
+			            </tr>
+			            <tr>
+			                <th>Date</th>
+			                <td th:text="${selectedBooking.date}"></td>
+			            </tr>
+			            <tr>
+			                <th>Time Slot</th>
+			                <td th:text="${selectedBooking.timeSlot}"></td>
+			            </tr>
+			            <tr>
+			                <th>Service</th>
+			                <td th:text="${selectedBooking.service}"></td>
+			            </tr>
+			            <tr>
+			                <th>Workshop</th>
+			                <td th:text="${selectedBooking.workshop}"></td>
+			            </tr>
+			            <tr>
+			                <th>Location</th>
+			                <td th:text="${selectedBooking.location}"></td>
+			            </tr>
+						<tr>
+						                <th>Additional Info</th>
+						                <td th:text="${selectedBooking.request}"></td>
+						            </tr>
+			            <tr>
+			                <th>Status</th>
+			                <td th:text="${selectedBooking.status}"></td>
+			            </tr>
+			           
+			        </table>
+			    </div>
+		</div>
+	    <!-- Display selected booking details if available -->
+	    
+	</div>
+
+		
+
+
+    <!-- Include Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

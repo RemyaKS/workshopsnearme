@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Service Quote Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .service-form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .form-control, .btn {
+            margin-top: 10px;
+        }
+        .btn {
+            background-color: #ff4567;
+            border-color: #ff4567;
+        }
+        .btn:hover {
+            background-color: #e63e57;
+            border-color: #e63e57;
+        }
+        .modal-body .brand-icons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .brand-icons img {
+            width: 50px;
+            margin: 10px;
+        }
+        .result-section {
+            margin-top: 20px;
+            display: none;
+        }
+        .result-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .result-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .result-item div {
+            margin-left: 10px;
+        }
+        #images
+        {
+            width: 105px;
+            height: 120px;
+        }
+        #serviceName
+        {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div>
+<div style="display: flex;">
+    <div class="service-form">
+        <h3 id="h3">Check Prices for Services</h3>
+        
+        <select id="vehicleSelect" class="form-control">
+            <option selected disabled>Select Your Vehicle Type</option>
+            <option value="car">Car</option>
+            <option value="bike">Bike</option>
+            <option value="auto">Auto</option>
+        </select>
+        <select id="carSelect" class="form-control" data-bs-toggle="modal" data-bs-target="#carModal">
+            <option selected disabled>Select Your's</option>
+        </select>
+        <button class="btn btn-primary w-100" id="checkPricesBtn">CHECK </button>
+    </div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <!-- Car Model Modal -->
+    <div class="modal fade" id="carModal" tabindex="-1" aria-labelledby="carModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="carModalLabel">Select Manufacturer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="carBrands" class="brand-icons">
+                        <div><img src="hyundai.gif"><p>Hyundai</p></div>
+                        <div><img src="honda.jpg"><p>Honda</p></div>
+                        <div><img src="tata.png"><p>Tata</p></div>
+                        <div><img src="ford.png"><p>Ford</p></div>
+                        <div><img src="Volkswagen.png"><p>Volkswagen</p></div>
+                        <div><img src="mahindra.png" alt="Mahindra"><p>Mahindra</p></div>
+                        <div><img src="renault.jpg" alt="Renault"><p>Renault</p></div>
+                        <div><img src="toyota.jpg" alt="Toyota"><p>Toyota</p></div>
+                        <div><img src="skoda.png" alt="Skoda"><p>Skoda</p></div>
+                        <div><img src="nissan.png" alt="Nissan"><p>Nissan</p></div>
+                        <div><img src="maruti.svg"><p>Maruti Suzuki</p></div>
+                    </div>
+                    <div id="bikeBrands" class="brand-icons" style="display: none;">
+                        <div><img src="yamaha.png" alt="Yamaha"><p>Yamaha</p></div>
+                        <div><img src="hondaa.jpg" alt="Honda"><p>Honda</p></div>
+                        <div><img src="suzuki.png" alt="Suzuki"><p>Suzuki</p></div>
+                        <div><img src="kawasaki.jpg" alt="Kawasaki"><p>Kawasaki</p></div>
+                        <div><img src="bajaj.jpg" alt="Bajaj"><p>Bajaj</p></div>
+                    </div>
+                    <div id="autoBrands" class="brand-icons" style="display: none;">
+                        <div><img src="bajaj.jpg" alt="Bajaj"><p>Bajaj</p></div>
+                        <div><img src="piaggio.png" alt="Piaggio"><p>Piaggio</p></div>
+                        <div><img src="tvs.png" alt="TVS"><p>TVS</p></div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Car Models Modal -->
+    <div class="modal fade" id="carModelModal" tabindex="-1" aria-labelledby="carModelModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="carModelModalLabel">Select Model</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="carModelList" class="list-group">
+                        <!-- Models will be appended here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Section -->
+    <div class="result-section" id="resultSection">
+        <h4>Available Services and Prices</h4>
+        <div>
+        <div class="result-item">
+            <img src="carss.jpg" alt="Vehicle Wash">
+            <div>Vehicle Wash - $30</div>
+        </div>
+        <div class="result-item">
+            <img src="carss.jpg" alt="Engine Service">
+            <div>Engine Service - $150</div>
+        </div>
+        <div class="result-item">
+            <img src="carss.jpg" alt="Automobile Service">
+            <div>Automobile Service - $120</div>
+        </div>
+        </div>
+        <div>
+        <div class="result-item">
+            <img src="carss.jpg" alt="Vehicle Service">
+            <div>Vehicle Service - $100</div>
+        </div>
+        <div class="result-item">
+            <img src="carss.jpg" alt="Tyre Replacement">
+            <div>Tyre Replacement - $80</div>
+        </div>
+        <div class="result-item">
+            <img src="carss.jpg" alt="Oil Service">
+            <div>Oil Service - $40</div>
+        </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const carModels = {
+            "maruti": ["Swift", "Baleno", "Celerio", "Dzire"],
+            "hyundai": ["i10", "i20", "Creta", "Verna"],
+            "honda": ["Civic", "City", "Amaze", "Jazz"],
+            "tata": ["Nexon", "Altroz", "Harrier", "Tiago"],
+            "ford": ["Figo", "Ecosport", "Endeavour"],
+            "volkswagen": ["Polo", "Vento", "Passat"],
+            "mahindra": ["XUV500", "Scorpio", "Thar"],
+            "renault": ["Duster", "Kwid", "Triber"],
+            "toyota": ["Innova", "Fortuner", "Etios"],
+            "skoda": ["Rapid", "Octavia", "Superb"],
+            "nissan": ["Micra", "Terrano", "Sunny"],
+            "fiat": ["Punto", "Linea", "Avventura"]
+        };
+
+        const bikeModels = {
+            "yamaha": ["FZ", "MT-15", "R15", "Fascino"],
+            "honda": ["CBR", "Shine", "Unicorn", "Activa"],
+            "suzuki": ["Gixxer", "Access", "Intruder"],
+            "kawasaki": ["Ninja", "Z1000", "Versys"],
+            "bajaj": ["Pulsar", "Avenger", "Dominar"]
+
+
+
+        };
+
+        const autoModels = {
+            "bajaj": ["Pulsar", "Avenger", "Dominara"],
+            "piaggio": ["Ape_City", "Ape_Xtra", "Ape E-City"],
+            "tvs": ["King_Deluxe", "King_Duramax", "King"]
+        };
+
+        document.getElementById('vehicleSelect').addEventListener('change', function() {
+            const carBrands = document.getElementById('carBrands');
+            const bikeBrands = document.getElementById('bikeBrands');
+            const autoBrands = document.getElementById('autoBrands');
+
+            carBrands.style.display = 'none';
+            bikeBrands.style.display = 'none';
+            autoBrands.style.display = 'none';
+
+            if (this.value === 'car') {
+                carBrands.style.display = 'flex';
+            } else if (this.value === 'bike') {
+                bikeBrands.style.display = 'flex';
+            } else if (this.value === 'auto') {
+                autoBrands.style.display = 'flex';
+            }
+        });
+
+        let selectedBrand = '';
+
+        document.querySelectorAll('#carBrands div, #bikeBrands div, #autoBrands div').forEach(brand => {
+            brand.addEventListener('click', function() {
+                selectedBrand = this.querySelector('p').textContent.toLowerCase();
+                const models = carModels[selectedBrand] || bikeModels[selectedBrand] || autoModels[selectedBrand];
+                const modelList = document.getElementById('carModelList');
+                modelList.innerHTML = '';
+
+                models.forEach(model => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item';
+                    li.textContent = model;
+                    modelList.appendChild(li);
+                });
+
+                const carModelModal = new bootstrap.Modal(document.getElementById('carModelModal'));
+                carModelModal.show();
+            });
+        });
+
+        document.getElementById('carModelList').addEventListener('click', function(event) {
+            if (event.target.tagName === 'LI') {
+                const selectedModel = event.target.textContent;
+                document.getElementById('carSelect').innerHTML = `<option selected>${selectedBrand.charAt(0).toUpperCase() + selectedBrand.slice(1)}: ${selectedModel}</option>`;
+                const carModelModal = bootstrap.Modal.getInstance(document.getElementById('carModelModal'));
+                carModelModal.hide();
+            }
+        });
+
+        document.getElementById('checkPricesBtn').addEventListener('click', function() {
+    const vehicleType = document.getElementById('vehicleSelect').value.toLowerCase();
+    const selectedModel = document.getElementById('carSelect').value.split(': ')[1].toLowerCase();
+
+    if (!vehicleType || !selectedModel) {
+        alert('Please select a vehicle type and model.');
+        return;
+    }
+
+    const prices = pricingData[vehicleType][selectedModel];
+
+    if (prices) {
+        const resultSection = document.getElementById('resultSection');
+        resultSection.innerHTML = `
+           <div  style=display:flex;>
+            <div>
+            <div class="result-item">
+                <img src="gif/washing.gif" alt="Vehicle Wash" id="images">
+                <div id="serviceName">Vehicle Wash - ₹ ${prices. carwash}</div>
+            </div>
+            <div class="result-item">
+                <img src="gif/eng.gif" alt="Engine Service" id="images">
+                <div id="serviceName">Engine Service -₹ ${prices.engineservice}/-</div>
+            </div>
+            <div class="result-item">
+                <img src="gif/auto.gif" alt="Automobile Service" id="images">
+                <div id="serviceName">Automobile Service -₹ ${prices.vehicleservice}/-</div>
+            </div>
+            </div> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <div>
+            <div class="result-item">
+                <img src="gif/tyre.gif" alt="Tyre Replacement" id="images">
+                <div id="serviceName">Tyre Replacement -₹ ${prices.tyrereplacement}/-</div>
+            </div>
+            <div class="result-item">
+                <img src="gif/oil.gif" alt="Oil Service" id="images">
+                <div id="serviceName">Oil Service -₹ ${prices.oilchanging}/-</div id="images">
+            </div>
+            <div class="result-item">
+                <img src="gif/veh_ser.gif" alt="Auto-Mobile Service" id="images">
+                <div id="serviceName">Vehicle Service -₹ ${prices.automobileservice}/-</div>
+            </div>
+            </div>
+            </div>
+        `;
+
+        resultSection.style.display = 'block';
+    } else {
+        alert('No pricing data available for the selected model.');
+    }
+});
+const pricingData = {
+    car: {
+        i10: { carwash: 200 , engineservice: 220, vehicleservice: 100, tyrereplacement: 600, oilchanging: 350,automobileservice:250 },
+        i20: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        jaze: { carwash: 300 , engineservice: 220, vehicleservice: 100, tyrereplacement: 600, oilchanging: 350,automobileservice:250 },
+        creta: { carwash: 110 , engineservice: 250, vehicleservice: 100, tyrereplacement: 630, oilchanging: 380,automobileservice:250 },
+        verna: { carwash: 250 , engineservice: 220, vehicleservice: 100, tyrereplacement: 600, oilchanging: 350,automobileservice:250 },
+        civic: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 500, oilchanging: 380,automobileservice:250 },
+        city: { carwash: 220 , engineservice: 220, vehicleservice: 100, tyrereplacement: 600, oilchanging: 350,automobileservice:250 },
+        amaze: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+       nexon: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        altroz: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        harrier: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        tiago: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        figo: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        ecosport: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        endeavour: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        polo: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        vento: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        passat: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        xUV500: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        scorpio: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        tThar: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        duster: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        kwid: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        triber: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        innova: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        fortuner: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        etios: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        rapid: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        octavia: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        superb: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        micra: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        terrano: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 },
+        sunny: { carwash: 200 , engineservice: 250, vehicleservice: 100, tyrereplacement: 600, oilchanging: 380,automobileservice:250 }
+       
+    },
+    bike: {
+        fz:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        mt15: { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        r15: { carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        fascino: { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        civic: { carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        city:  { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        amaze:  { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        jazz: { carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        gixxer:  { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        access:  { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        intruder:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        ninja:  { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        z1000:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        versys:  { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 },
+        pulsar:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        avenger: { carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        dominar: { carwash: 210 , engineservice: 130, vehicleservice: 170, tyrereplacement: 350, oilchanging: 180,automobileservice:180 }
+
+    },
+    auto: {
+        pulsar:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        avenger:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        dominar:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        ape_City:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        ape_Xtra:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        king_Deluxe:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        king_Duramax:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 },
+        king:{ carwash: 150 , engineservice: 180, vehicleservice: 170, tyrereplacement: 140, oilchanging: 130,automobileservice:200 }
+
+    }
+};
+
+    </script>
+</body>
+</html>
+
+

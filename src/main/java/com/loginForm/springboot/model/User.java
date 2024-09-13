@@ -34,6 +34,9 @@ public class User {
 	@Column(name ="email")
 	private String email;
 	
+	@Column(name ="phone")
+	private String phone;
+	
 	@Column(name ="password")
 	private String password;
 	
@@ -52,16 +55,18 @@ public class User {
 		
 	}
 	
-	public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
+	public User(String firstName, String lastName, String email,String phone, String password, Collection<Role> roles) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.phone = phone;
 		this.password = password;
+		
 		this.roles = roles;
 	}
 	public Long getId() {
-		return id;
+		return id; 
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -84,6 +89,15 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+	
 	public String getPassword() {
 		return password;
 	}
