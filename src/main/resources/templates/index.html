@@ -1072,46 +1072,114 @@ nav{
 
 						.goog-te-combo {
 						   background-color: transparent !important;
-						    color: rgb(255, 255, 255) !important;
+						    color: rgb(255, 0, 0) !important;
 						    font-size: 16px !important;
 						    border: 2px solid crimson !important;
 						    border-radius: 5px !important;
 							padding:5px;
 						}
+						
+						
+						/*feedback*/
+						#feedbackPopup {
+																		      display: none;
+																		      position: fixed;
+																		      bottom: 20px;
+																		      right: 20px;
+																		      z-index: 1000;
+																		      width: 300px;
+																		      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+																		    }
+
+												                         .rating-container {
+
+												                          text-align: center;
+
+												                          }
+
+
+
+												                          .star-rating {
+
+												                          display: flex;
+
+												                          justify-content: center;
+
+												                          margin: 20px 0;
+
+												                          }
+
+
+
+												                          .star {
+
+												                          font-size: 40px;
+
+												                          color: lightgray;
+
+												                          cursor: pointer;
+
+												                          margin: 0 5px;
+
+												                          transition: color 0.2s;
+
+												                          }
+
+
+
+												                          input[type="radio"] {
+
+												                          display: none;
+
+												                          }
+
+
+
+												                          .star.checked {
+
+												                          color: orange;
+
+												                          }
+
+
+
+												                         
+
+
+
+												                          #feedback {
+
+												                          display: flex;
+
+												                          align-items: center;
+
+												                          justify-content: center;
+
+												                          margin-top: 10px;
+
+												                          }
+
+
+
+												                          #feedback-text {
+
+												                          font-size: 18px;
+
+												                          margin-right: 1px;
+
+												                          }
+
+
+
+												                          #feedback-emoji {
+
+												                          font-size: 24px;
+
+												                          }
+
 	</style>
 	<!--profile-->
-	<div class="body">
-		<!--
-		
-		<!--profile container
-		<div class="profile-container" >
-			        <div class="profile-header">
-			 
-			            <h1 class="profile-name">John Doe</h1>
-			            <p class="profile-bio">Web Developer | Tech Enthusiast | Blogger</p>
-			        </div>
-			        <div class="profile-content">
-			            <h2>About Me</h2>
-			            <p>Hello! I'm John Doe, a passionate web developer with experience in creating dynamic and user-friendly websites. I love exploring new technologies and sharing my knowledge through my blog.</p>
-			            
-			            <h2>Skills</h2>
-			            <ul class="skills-list">
-			                <li>HTML/CSS</li>
-			                <li>JavaScript</li>
-			                <li>React</li>
-			                <li>Node.js</li>
-			                <li>Python</li>
-			            </ul>
-			            
-			            <h2>Social Media</h2>
-			            <div class="social-media">
-			                <a href="https://twitter.com/" target="_blank">Twitter</a>
-			                <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
-			                <a href="https://github.com/" target="_blank">GitHub</a>
-			            </div>
-			        </div>
-			    </div>-->
-	</div>
+
 <!--Request for a call form-->
 	
 
@@ -1426,7 +1494,7 @@ nav{
                                         <div class="col-md-7">
 											<h3 class="animate-charcter thirdheading col-ms-3">Workshops Near Me...</h3>
 											
-											<p class="lead"> Quickly book your vehicle service and discover the nearest workshops with our user-friendly platform </p>
+											<p class="lead"> Quickly book your  service and discover the nearest workshops with our user-friendly platform </p>
 											<div class="button-group">
 											                                    <a th:href="@{/#book}" style="color: white;" class="booklink">
 											                                        Book Our Services
@@ -1691,7 +1759,8 @@ nav{
                                         </div>
                                         <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
                                             <img src="" alt="#" th:src="@{img/carwash.gif}" style="width: 180px; height: 180px; border-radius: 20%; object-fit: cover;">
-                                        </div>
+											<button class="btn btn-primary" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#availabilityModal1">Locations</button>
+											</div>
                                    </div>
                                 </div>
                             </div>
@@ -1715,6 +1784,9 @@ nav{
                                         
                                         <div style="margin-left: 1cm; margin-bottom: 0.3cm;">
                                             <img src="" alt="#" th:src="@{img/engine.gif}" style="width: 290px; height: 180px; border-radius: 40%; object-fit: cover;">
+											<button class="btn btn-primary" style="width: 100%;" data-bs-toggle="modal" data-bs-target="#availabilityModal2">Locations</button>
+
+
                                         </div>
                                    </div>
                                 </div>
@@ -1982,6 +2054,8 @@ nav{
 						                <option value="Auto-Mobile Service">Auto-Mobile Service</option>
 						                <option value="Tire Replacement">Tire Replacement</option>
 						                <option value="Oil Change">Oil Change</option>
+										<option value="Painting Services">Painting Services</option>
+										<option value="A/C Repair">A/C Repair</option>
 						            </select>
 						        </div>
 						        <div class="col-12 col-sm-6">
@@ -1990,6 +2064,8 @@ nav{
 						                <option value="Car">Car</option>
 						                <option value="Bike">Bike</option>
 						                <option value="Auto Rikshaw">Auto Rikshaw</option>
+										<option value="Scooter">Scooter</option>
+										
 						            </select>
 						        </div>
 						        <div class="col-12 col-sm-6">
@@ -2256,125 +2332,75 @@ nav{
 
 						                  </script>
 
-						                     <style>
-
-						                         .rating-container {
-
-						                          text-align: center;
-
-						                          }
-
-
-
-						                          .star-rating {
-
-						                          display: flex;
-
-						                          justify-content: center;
-
-						                          margin: 20px 0;
-
-						                          }
-
-
-
-						                          .star {
-
-						                          font-size: 40px;
-
-						                          color: lightgray;
-
-						                          cursor: pointer;
-
-						                          margin: 0 5px;
-
-						                          transition: color 0.2s;
-
-						                          }
-
-
-
-						                          input[type="radio"] {
-
-						                          display: none;
-
-						                          }
-
-
-
-						                          .star.checked {
-
-						                          color: orange;
-
-						                          }
-
-
-
-						                         
-
-
-
-						                          #feedback {
-
-						                          display: flex;
-
-						                          align-items: center;
-
-						                          justify-content: center;
-
-						                          margin-top: 10px;
-
-						                          }
-
-
-
-						                          #feedback-text {
-
-						                          font-size: 18px;
-
-						                          margin-right: 1px;
-
-						                          }
-
-
-
-						                          #feedback-emoji {
-
-						                          font-size: 24px;
-
-						                          }
-
-						                     </style>
+						                   
 
 						             <!--feed back END*****-->
 						<!-- The form -->
-						<div class="feedback-form">
-						        <h2 style="color:white">User Rating</h2>
-								<form th:action="@{/ratings}" method="POST" id="feedbackForm">
-								        <div class="rating">
-								            <input type="radio"  class="star" id="star5" name="rating" value="5" onclick="selectStar(5)">
-								            <label for="star5" >&#9733;</label>
-								            <input type="radio"class="star" id="star4" name="rating" value="4" onclick="selectStar(4)">
-								            <label for="star4"  >&#9733;</label>
-								            <input type="radio" class="star" id="star3" name="rating" value="3" onclick="selectStar(3)">
-								            <label for="star3"  >&#9733;</label>
-								            <input type="radio"class="star" id="star2" name="rating" value="2" onclick="selectStar(2)">
-								            <label for="star2"  >&#9733;</label>
-								            <input type="radio" class="star" id="star1" name="rating" value="1" onclick="selectStar(1)">
-								            <label for="star1"  >&#9733;</label>
-								        </div>
-										<div id="feedback">
+	<button class="btn btn-primary" onclick="showFeedbackForm()">Give Feedback</button>
+	<div id="success_Message" class="text-success mt-3">
+	        <p th:text="${message}"></p>
+	    </div>
+	
+	<div id="feedbackPopup" class="card">
+	    <div class="card-header bg-primary text-white">
+	      Feedback Form
+	      <button type="button" class="btn-close btn-close-white float-end" aria-label="Close" onclick="hideFeedbackForm()"></button>
+	    </div>
+	    <div class="card-body">
+	     <form th:action="@{/submitReview}" method="post">
+	      
+			<div class="mb-3">
+			       <label for="name" class="form-label text-dark">Name</label>
+			       <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required>
+			   </div>
+			<div class="mb-3">
+			          <label for="review" class="form-label text-dark">  Review</label>
+			          <textarea class="form-control" id="review" name ="review" rows="3" placeholder="Write your review" required></textarea>
+			 </div>
+			<div class="mb-3">
+						<label for="rating" class="form-label text-dark">User Rating</label>
+					<div class="rating">
+										
+						<input type="radio"  class="star" id="star5" name="rating" value="5" onclick="selectStar(5)">
+						<label for="star5" >&#9733;</label>
+						<input type="radio"class="star" id="star4" name="rating" value="4" onclick="selectStar(4)">
+						<label for="star4"  >&#9733;</label>
+						<input type="radio" class="star" id="star3" name="rating" value="3" onclick="selectStar(3)">
+						<label for="star3"  >&#9733;</label>
+						<input type="radio"class="star" id="star2" name="rating" value="2" onclick="selectStar(2)">
+						<label for="star2"  >&#9733;</label>
+						<input type="radio" class="star" id="star1" name="rating" value="1" onclick="selectStar(1)">
+						<label for="star1"  >&#9733;</label>
+					</div>
+					<div id="feedback">
 
-										                        <span id="feedback-text"></span>
+								 <span id="feedback-text" class="text-dark"></span>
 
-										                        <span id="feedback-emoji"></span>
+								<span id="feedback-emoji"></span>
 
-										                        </div>
+					</div>
+				</div>
+	        </div>
+	       
+	 <button type="submit" class="submit-btn">Submit</button>
+ 	      </form>
+		  
+		  
+		 
+	    </div>
+	  </div>
 
-								        <button type="submit" class="submit-btn">Submit</button>
-								    </form>
-									<div id="success_Message" class="success-message">Thank you for your feedback!</div>
-						    </div>
+	  <script>
+	    function showFeedbackForm() {
+	      document.getElementById('feedbackPopup').style.display = 'block';
+	    }
+
+	    function hideFeedbackForm() {
+	      document.getElementById('feedbackPopup').style.display = 'none';
+	    }
+	  </script>
+	  
+						
 							
 						<!--Form End-->	
 						
@@ -2429,6 +2455,7 @@ nav{
 		  display: flex;
 		  flex-direction: row-reverse; /* this is the magic */
 		  justify-content: flex-end;
+		  
 		}
 
 		.rating input {
@@ -2438,6 +2465,7 @@ nav{
 		.rating label {
 		  font-size: 24px;
 		  cursor: pointer;
+		  color:darkgray;
 		}
 
 		.rating label:hover,
@@ -2695,33 +2723,35 @@ function topFunction() {
 
         const workshops = {
 
-            'Attingal': ['Friends Automobiles','Saras car ac workshops','Ganga Workshops','Saroj Workshop','Mariyam Service Center','The Marshal Garage','Friday Workshop'],
+            'Attingal': ['Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+			'Mariyam all car service center','The Marshal Garage','Friday Club'],
 
-            'Kazhakuttom': ['Gopans Service Center', 'Bosch Workshop','Perfect Maruti Service center','Mars Auto Electrical Workshops','Surabhi Workshops','Concept Color','SB Workshop'],
+            'Kazhakuttom': ['Gopan\'s Bicycles Service', 'Friends Auto Electrical works','Surabhi Autos and two wheeler workshop','Concept Colours',
+			'Sb Two Weeler Workshop','Kumar Auto Works'],
 
-            'Kilimanoor': ['Focus Welding '],
+            'Kilimanoor': ['Indus Motors'],
 
-            'Kovalam': ['Nithya Workshop', 'U V P Two Wheeler','Amme Bhaghavathi','Shiva Sakthi'],
+            'Kovalam': ['Nithya Workshop', 'U V P Two Wheeler Works','Amme Bhaghavathi'],
 
-            'Palayam': ['Kailas Two Wheeler', 'Elegent workshop',],
+            'Palayam': ['Kaila\'s two Wheeler Workshop','Elegant Workshop','Sree padam Two wheeler Workshop','Sivakumar\'s workshop','M Tech Motors','Chandran\'s Workshop','Kannan Car Workshop'
+					  ,'Vinod Workshop','MySyara - Car Care on your schedule'],
 
-            'Pothencod': ['Royal Driver car', 'German Motors','Vinayaka Service Station',
+            'Pothencod': ['Royal Drive Car Accessories', 'German Motors','Vinayaka Service Station',
 
-  		  'German Tech Skoda','DS Service Center','Aramam Service Station','Vision Auto Center','Car cool Car Ac','Bismi Car center'],
+  		  'Germantech Skoda Service Center','D S Maruti Service Center','Aaramam Service Station','Vision Auto Center','Car Cool Car Ac And Auto Electrical Works','Bismi Car Service Centre','Salamath Service Station'],
 
-            'Trivandrum': ['My Car Motors', 'Indigoo International','RVS MOTO HUB','Moto Lab',
+            'Trivandrum': ['My Car Motors and Spares', 'My TVS Automobile Solutions Ltd','RVS MOTO HUB','Moto Lab',
 
   		  'M Tech Motors','Car Cardiac Care','Real Touch Automobiles','Imperial',
 
-  		  'Sm Car Beauty Clinic','Kelester Engineers'],
+  		  'Sm Car Beauty Clinic','Kelester Engineers','Vinod Workshop'],
 
-            'Varkala': ['Royal autox', 'Sree Mookambika','MS Two Wheeler Works','Petrol Issues Garage',
+            'Varkala': ['Royal Autox', 'Sree Mookambika Two Wheeler Works','MS Two Wheeler Works','Marikar Honda Service Center','Petrol Issues Garage',
+			'Jackson two wheeler garage','Maruti Suzuki Authorised Service','Radhakrishna Motor Workshop'],
 
-  		  'Marikar Honda Service','Jackson two wheeler','Maruti Suzuki Service','Radhakrishna Workshop'],
+            'Venjaramood': ['T V S Car Repair','H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints'],
 
-            'Venjaramood': ['T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints'],
-
-            'Vizhijam': ['Shiva Sakthi', 'Ambady Auto Works','Siva Automobiles', 'K G Auto Works']
+            'Vizhijam': ['Shiva Sakthi Automobiles', 'Ambady Auto Works','Siva Automobiles', 'K G Auto Works']
 
         };
 
@@ -2729,28 +2759,72 @@ function topFunction() {
 
         const services = {
 
-            'Vehicle Washes': ['Venus Motors','Sm Car Beauty Clinic','Imperial','Real Touch Automobiles','Car Cardiac Care','RVS MOTO HUB','My Car Motors','Marikar Honda Service', 'Maruti Suzuki Service','Bismi Car center','Car cool Car Ac','Vision Auto Center','Aramam Service Station','DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Saroj Workshop', 'The Marshal Garage', 'Mariyam Service Center', 'Workshop7'],
+            'Vehicle Washes':['Moto Lab','M Tech Motors','Real Touch Automobiles','Sm Car Beauty Clinic','Kelester Engineers',
+			'M Tech Motors','Perfect Maruti Service Center','Concept Colours','Friends Automobiles And Industrial Workshop',
+			'Saroj Two Wheeler Workshop','Mariyam all car service center','Friday Club','Royal Autox','Marikar Honda Service Center',
+			'T V S Car Repair','H.K.Motors','Tata Motors','Vineeth Paints','Royal Drive Car Accessories','Germantech Skoda Service Center',
+			'Aaramam Service Station','Salamath Service Station','Indus Motors'],
 
-            'Engine Service': ['Gopans Service Center','T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints','K G Auto Works','Siva Automobiles','Shiva Sakthi','Kelester Engineers','Real Touch Automobiles','M Tech Motors','Moto Lab','RVS MOTO HUB','My Car Motors','Royal autox','Sree Mookambika','MS Two Wheeler Works','Jackson two wheeler','Maruti Suzuki Service','Radhakrishna Workshop','Shiva Sakthi','Amme Bhaghavathi','U V P Two Wheeler','Focus Welding','Elegent workshop','Kailas Two Wheeler','Bismi Car center','Car cool Car Ac','Vision Auto Center','Aramam Service Station', 'DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Royal Driver car','Friday Workshop','The Marshal Garage','Friends Automobiles ', 'Saras car ac workshops', 'Ganga Workshops', 'Saroj Workshop','Mariyam Service Center'],
+            'Engine Service': ['My Car Motors and Spares', 'My TVS Automobile Solutions Ltd','RVS MOTO HUB','Moto Lab',
+
+			  		  'M Tech Motors','Car Cardiac Care','Real Touch Automobiles','Imperial',
+
+			  		  'Sm Car Beauty Clinic','Kelester Engineers','Vinod Workshop',
+					  'Elegant Workshop','Sree padam Two wheeler Workshop','Sivakumar\'s workshop','M Tech Motors','Chandran\'s Workshop','Kannan Car Workshop'
+					  ,'Vinod Workshop','MySyara - Car Care on your schedule',
+					  'Friends Auto Electrical works','Surabhi Autos and two wheeler workshop','Concept Colours',
+					  'Kumar Auto Works','Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+					  			'Mariyam all car service center','The Marshal Garage','Friday Club',
+								'Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+											'Mariyam all car service center','The Marshal Garage','Friday Club',
+											'T V S Car Repair','H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints',
+											'Royal Drive Car Accessories', 'German Motors','Vinayaka Service Station'],
 
             'Auto-Mobile Service': ['Royal autox','Siva Automobiles','Ambady Auto Works','Shiva Sakthi','Real Touch Automobiles','Moto Lab','Indigoo International','My Car Motors','The Marshal Garage', 'Mariyam Service Center', 'Workshop13', 'Workshop15'],
 
-            'Tire Replacement': ['T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints','K G Auto Works','Siva Automobiles','Ambady Auto Works','Shiva Sakthi','Moto Lab','RVS MOTO HUB','Indigoo International','My Car Motors','Royal autox','Sree Mookambika','MS Two Wheeler Works','Jackson two wheeler','Radhakrishna Workshop','Shiva Sakthi','Amme Bhaghavathi','Nithya Workshop','Elegent workshop','Kailas Two Wheeler','Car cool Car Ac', 'Vision Auto Center','DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Royal Driver car','Friday Workshop','The Marshal Garage','Friends Automobiles and Industrial workshops', 'Saras car ac workshops', 'Ganga Workshops', 'Saroj Workshop','Mariyam Service Center'],
+            'Tire Replacement': ['Vinod Workshop','MySyara - Car Care on your schedule','Kumar Auto Works','Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+							  			'Mariyam all car service center','The Marshal Garage','Friday Club','T V S Car Repair','H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints'],
 
-            'Oil Change': ['Venus Motors','Siva Automobiles','Ambady Auto Works','Kelester Engineers','Car Cardiac Care','RVS MOTO HUB','My Car Motors','Royal autox','Petrol Issues Garage','Marikar Honda Service','Jackson two wheeler','U V P Two Wheeler','Elegent workshop','Kailas Two Wheeler','Car cool Car Ac','Vision Auto Center','German Motors','Friday Workshop','The Marshal Garage','Friends Automobiles and Industrial workshops', 'Saras car ac workshops', 'Ganga Workshops', 'Saroj Workshop','Mariyam Service Center','Royal Driver car']
-
+            'Oil Change': ['Vinod Workshop','MySyara - Car Care on your schedule',
+							 'Friends Auto Electrical works','Surabhi Autos and two wheeler workshop','Concept Colours',
+														  'Kumar Auto Works','Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+														  			'Mariyam all car service center','The Marshal Garage','Friday Club','Royal Drive Car Accessories', 'German Motors','Vinayaka Service Station'],
+			'Painting Services':['Friends Auto Electrical works','Surabhi Autos and two wheeler workshop','Concept Colours',
+																						  'Kumar Auto Works','Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+																						  			'Mariyam all car service center','The Marshal Garage','Friday Club','Royal Drive Car Accessories', 'German Motors','Vinayaka Service Station'],
+			'A/C Repair':['My Car Motors and Spares','RVS MOTO HUB','Moto Lab','Vinod Workshop','Concept Colours','Saras Car A/C Workshop','Mariyam all car service center',
+			'Maruti Suzuki Authorised Service','H.K.Motors','Aaramam Service Station','Car Cool Car Ac And Auto Electrical Works']
+			
         };
 
 
 
         const vehicleTypes = {
 
-            'Car': ['Gopans Service Center','T V S Car Repair', 'H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints','Siva Automobiles','Kelester Engineers','Sm Car Beauty Clinic','Imperial','Real Touch Automobiles','Car Cardiac Care','M Tech Motors','Moto Lab','RVS MOTO HUB','My Car Motors','Maruti Suzuki Service','Petrol Issues Garage','Marikar Honda Service','Shiva Sakthi','Bismi Car center','Car cool Car Ac','Vision Auto Center','Aramam Service Station','DS Service Center','German Tech Skoda','Vinayaka Service Station','German Motors','Royal Driver car','Kailas Two Wheeler','Friends Automobiles ', 'Gopans Service Center', 'The Marshal Garage', 'Saroj Workshop'],
+            'Car': ['Moto Lab','M Tech Motors','Real Touch Automobiles','Sm Car Beauty Clinic','Kelester Engineers',
+						'M Tech Motors','Perfect Maruti Service Center','Concept Colours','Friends Automobiles And Industrial Workshop',
+						'Tata Motors','Vineeth Paints','Royal Drive Car Accessories','Germantech Skoda Service Center',
+									'Aaramam Service Station','Salamath Service Station','Indus Motors'],
 
-            'Bike': ['Venus Motors','Siva Automobiles','Shiva Sakthi','Kelester Engineers','M Tech Motors','RVS MOTO HUB','Indigoo International','Royal autox','Jackson two wheeler','Radhakrishna Workshop','Petrol Issues Garage','MS Two Wheeler Works','Sree Mookambika','Royal autox','Amme Bhaghavathi','U V P Two Wheeler','Vinayaka Service Station','Elegent workshop','Mars Auto Electrical Workshops', 'Concept Color', 'SB Workshop'],
+            'Bike': ['Sm Car Beauty Clinic','Kelester Engineers','Vinod Workshop',
+														  'Elegant Workshop','Sree padam Two wheeler Workshop','Sivakumar\'s workshop','M Tech Motors','Chandran\'s Workshop','Kannan Car Workshop'
+														  ,'Vinod Workshop','MySyara - Car Care on your schedule',
+														  'Friends Auto Electrical works','Surabhi Autos and two wheeler workshop','Concept Colours',
+														  'Kumar Auto Works','Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+														  			'Mariyam all car service center','The Marshal Garage','Friday Club',
+																	'Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+																				'Mariyam all car service center','The Marshal Garage','Friday Club',
+																				'T V S Car Repair','H.K.Motors','Venus Motors','Tata Motors','Vineeth Paints'],
 
-            'Auto Rikshaw': ['Royal autox','K G Auto Works','Ambady Auto Works','Kelester Engineers','M Tech Motors','Royal autox','Sree Mookambika','Radhakrishna Workshop','Nithya Workshop','Auto','Vinayaka Service Station','Elegent workshop','Kailas Two Wheeler','Perfect Maruti Service center', 'Surabhi Workshops']
-
+            'Auto Rikshaw': ['Surabhi Autos and two wheeler workshop','Aaramam Service Station','Salamath Service Station','Nithya Workshop','Ambady Auto Works'],
+			'Scooter':[			'Sm Car Beauty Clinic','Kelester Engineers','Vinod Workshop',
+							  'Elegant Workshop','Sree padam Two wheeler Workshop','Sivakumar\'s workshop','M Tech Motors','Chandran\'s Workshop','Kannan Car Workshop'
+							  ,'Vinod Workshop','MySyara - Car Care on your schedule',
+							  'Friends Auto Electrical works','Surabhi Autos and two wheeler workshop','Concept Colours',
+							  'Kumar Auto Works','Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+							  			'Mariyam all car service center','The Marshal Garage','Friday Club',
+										'Friends Automobiles And Industrial Workshop','Saras Car A/C Workshop','Ganga Two Wheeler Workshop','Saroj Two Wheeler Workshop',
+													'Mariyam all car service center','The Marshal Garage','Friday Club',]
         };
 
 
@@ -2866,25 +2940,400 @@ function topFunction() {
   <!--bookin end-->
   <!--reating-->
 	
-  <script>
-          $(document).ready(function () {
-              $('#feedbackForm').on('submit', function (event) {
-                  event.preventDefault();
+  
+	  <!--Pop up for vehicle Washes-->
+	  <div class="modal fade" id="availabilityModal1" tabindex="-1" aria-labelledby="availabilityModalLabel1" aria-hidden="true">
+	      <div class="modal-dialog">
+	          <div class="modal-content">
+	                  <div class="image-container">
+	                      <!-- Left side image -->
+	                  </div>
+	                  <div class="form-area">
+	                      <div class="modal-header">
+	                          <h5 class="modal-title" id="availabilityModalLabel1"><span style="color: #fff;">Vehicle Washes</span> Available Workshops</h5>
+	                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                      </div>
+	                      <div class="modal-body">
+	                          <div class="form-group">
+	                              <label for="placeSelect">Place:</label>
+	                              <select class="form-select" id="placeSelect" aria-label="Select Place">
+	                                  <option selected disabled>Select a place</option>
+	                                  <option value="1">Trivandrum</option>
+	                                  <option value="2">Palayam</option>
+	                                  <option value="3">Kazhakuttom</option>
+	                                  <option value="4">Attingal</option>
+	                                  <option value="5">Varkala</option>
+	                                  <option value="6">Kilimanoor</option>
+	                                  <option value="7">Venjaramoodu</option>
+	                                  <option value="8">Pothencod</option>
+	                                  <option value="9">Kovalam</option>
+	                                  <option value="10">Vizhijam</option>
+	                              </select>
+	                          </div>
+	                          <div class="form-group">
+	                              <label for="vehicleSelect">Vehicle:</label>
+	                              <select class="form-select" id="vehicleSelect" aria-label="Select Vehicle">
+	                                  <option selected disabled>Select a vehicle</option>
+	                                  <option value="car">Car</option>
+	                                  <option value="bike">Bike</option>
+	                                  <option value="auto">Auto</option>
+	                              </select>
+	                          </div>
 
-                  $.ajax({
-                      type: 'POST',
-                      url: '/ratings',
-                      data: $(this).serialize(),
-                      success: function (response) {
-                          $('#success_Message').text(response).show();
-                      },
-                      error: function () {
-                          $('#success_Message').text('please select rating!.').show();
-                      }
-                  });
-              });
-          });
-      </script>
+	                          <table class="table workshop-table" id="workshopTable">
+	                              <thead>
+	                                  <tr>
+	                                      <th scope="col">No</th>
+	                                      <th scope="col">Workshop Name</th>
+	                                  </tr>
+	                              </thead>
+	                              <tbody>
+	                                  <!-- Workshops will be dynamically inserted here -->
+	                              </tbody>
+	                          </table>
+	                      </div>
+	                  </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	     </div>
+	  </div>
+	  <!-- End Pop up vehicle Washes-->
+	      <!--Script for the vehicle popup-->
+	      <script>
+	          const workshops = {
+	              "1": {
+	                  "car": [
+	                      { no: 1, name: "My Car Motors" },
+	                      { no: 2, name: "RVS Moto Hub" },
+	                      { no: 3, name: "Car Cardiac Care" },
+	                      { no: 4, name: "Real Touch Automobiles " },
+	                      { no: 5, name: "Imperial" },
+	                      { no: 6, name: "Sm Car Beauty Clinic" }
+	                  ],
+	                  "bike": [
+	                      { no: 1, name: "RVS Moto Hub" }
+	                  ],
+	                  "auto": [
+	                      { no: "*", name: "Sorry no Workshops are available for auto" }
+	                  ]
+	              },
+	              "4": {
+	                  "car": [
+	                      { no: 1, name: "Saroj Workshop" },
+	                      { no: 2, name: "The Marshal Garage" }
+	                  ],
+	                  "bike": [
+	                      { no: "*", name: "Sorry no Workshops are available for Bike" }
+	                  ],
+	                  "auto": [
+	                      { no: "*", name: "Sorry no Workshops are available for auto" }
+	                  ]
+	              },
+	              "5": {
+	                  "car": [
+	                      { no: 1, name: "Marikar Honda Service" },
+	                      { no: 2, name: "Maruti Suzuki Service" }
+	                  ],
+	                  "bike": [
+	                      { no: "*", name: "Sorry no Workshops are available for Bike" }
+	                  ],
+	                  "auto": [
+	                      { no: "*", name: "Sorry no Workshops are available for auto" }
+	                  ]
+	              }
+	          };
+
+	          document.getElementById('placeSelect').addEventListener('change', filterWorkshops);
+	          document.getElementById('vehicleSelect').addEventListener('change', filterWorkshops);
+
+	          function filterWorkshops() {
+	              const place = document.getElementById('placeSelect').value;
+	              const vehicle = document.getElementById('vehicleSelect').value;
+	              const table = document.getElementById('workshopTable');
+	              const tbody = table.querySelector('tbody');
+	              
+	              tbody.innerHTML = ''; // Clear existing rows
+
+	              if (place && vehicle && workshops[place] && workshops[place][vehicle]) {
+	                  workshops[place][vehicle].forEach(workshop => {
+	                      const row = document.createElement('tr');
+	                      row.innerHTML = `<td>${workshop.no}</td><td>${workshop.name}</td>`;
+	                      tbody.appendChild(row);
+	                  });
+	                  table.style.display = 'table'; // Show the table
+	              } else {
+	                  table.style.display = 'none'; // Hide the table if no data
+	              }
+	          }
+	      </script>             
+	          
+	      <!--End Script for vehicle-->
+	      <!-- Start Style for vehicle -->
+	  <style>
+	      .modal-content {
+	                 display: flex;
+	                 max-width: 1000px;
+	                 width: 100%;
+	                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	                 border-radius: 10px;
+	                 overflow: hidden;
+	                 
+	                 font-family: Arial, sans-serif;
+	                 display: flex;
+	                 justify-content: center;
+	                 align-items: center;
+	                 
+	                 margin: 0;
+	             }
+	             .modal-header, .modal-footer {
+	                 background-color: #ff4567;
+	                 color: white;
+	             }
+	             .modal-header {
+	                 border-bottom: none;
+	             }
+	             .modal-body {
+	                 padding: 20px;
+	                 background-color: #fff;
+	                 width: 100%;
+	             }
+	             .modal-body .form-group {
+	                 display: flex;
+	                 align-items: center;
+	                 margin-bottom: 15px;
+	             }
+	             .modal-body .form-group label {
+	                 width: 150px;
+	                 margin-right: 15px;
+	                 font-weight: bold;
+	             }
+	             .modal-body .form-group select {
+	                 flex-grow: 1;
+	             }
+	             .modal-body .table {
+	                 margin-top: 20px;
+	             }
+	             .modal-body img {
+	                 width: 100%;
+	                 height: auto;
+	                 border-radius: 10px 0 0 10px;
+	             }
+	             .form-container {
+	                 display: flex;
+	                 flex-direction: row;
+	                 width: 100%;
+	             }
+	             .image-container {
+	                 flex: 1;
+	                
+	             }
+	             .form-area {
+	                 flex: 1.5;
+	                 padding: 30px;
+	             }
+	             .btn-secondary {
+	                 background-color: #6c757d;
+	                 border: none;
+	             }
+	  </style>
+	      <!--End style vehicle-->    
+	  <!--End vehicle Washes-->
+	  
+	  
+
+	  <!-- Pop up for Engine Service -->
+	  	<div class="modal fade" id="availabilityModal2" tabindex="-1" aria-labelledby="availabilityModalLabel2" aria-hidden="true">
+	  	    <div class="modal-dialog">
+	  	        <div class="modal-content">
+	  	            <div class="image-container">
+	  	                <!-- Left side image -->
+	  	            </div>
+	  	            <div class="form-area">
+	  	                <div class="modal-header">
+	  	                    <h5 class="modal-title" id="availabilityModalLabel2"><span style="color: #fff;">Engine Service</span> Available Workshops</h5>
+	  	                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	  	                </div>
+	  	                <div class="modal-body">
+	  	                    <div class="form-group">
+	  	                        <label for="placeSelectEngine">Place:</label>
+	  	                        <select class="form-select" id="placeSelectEngine" aria-label="Select Place">
+	  	                            <option selected disabled>Select a place</option>
+	  	                            <option value="1">Trivandrum</option>
+	  	                            <option value="2">Palayam</option>
+	  	                            <option value="3">Kazhakuttom</option>
+	  	                            <option value="4">Attingal</option>
+	  	                            <option value="5">Varkala</option>
+	  	                            <option value="6">Kilimanoor</option>
+	  	                            <option value="7">Venjaramoodu</option>
+	  	                            <option value="8">Pothencod</option>
+	  	                            <option value="9">Kovalam</option>
+	  	                            <option value="10">Vizhijam</option>
+	  	                        </select>
+	  	                    </div>
+	  	                    <div class="form-group">
+	  	                        <label for="vehicleSelectEngine">Vehicle:</label>
+	  	                        <select class="form-select" id="vehicleSelectEngine" aria-label="Select Vehicle">
+	  	                            <option selected disabled>Select a vehicle</option>
+	  	                            <option value="car">Car</option>
+	  	                            <option value="bike">Bike</option>
+	  	                            <option value="auto">Auto</option>
+	  	                        </select>
+	  	                    </div>
+
+	  	                    <table class="table workshop-table" id="workshopTableEngine">
+	  	                        <thead>
+	  	                            <tr>
+	  	                                <th scope="col">No</th>
+	  	                                <th scope="col">Workshop Name</th>
+	  	                            </tr>
+	  	                        </thead>
+	  	                        <tbody>
+	  	                            <!-- Workshops will be dynamically inserted here -->
+	  	                        </tbody>
+	  	                    </table>
+	  	                </div>
+	  	            </div>
+	  	        </div>
+	  	    </div>
+	  	</div>
+	  	<!-- End Pop up Engine Service -->
+
+	  	<!-- Script for the Engine Service popup -->
+	  	<script>
+	  	    const workshops1 = {
+	  	        "1": {
+	  	            "car": [
+	  	                { no: 1, name: "My Car Motors" },
+	  	                { no: 2, name: "RVS Moto Hub" },
+	  	                { no: 3, name: "Car Cardiac Care" },
+	  	                { no: 4, name: "Real Touch Automobiles" },
+	  	                { no: 5, name: "Imperial" },
+	  	                { no: 6, name: "Sm Car Beauty Clinic" }
+	  	            ],
+	  	            "bike": [
+	  	                { no: 1, name: "RVS Moto Hub" }
+	  	            ],
+	  	            "auto": [
+	  	                { no: "*", name: "Sorry no Workshops are available for auto" }
+	  	            ]
+	  	        },
+	  	        "4": {
+	  	            "car": [
+	  	                { no: 1, name: "Saroj Workshop" },
+	  	                { no: 2, name: "The Marshal Garage" }
+	  	            ],
+	  	            "bike": [
+	  	                { no: "*", name: "Sorry no Workshops are available for Bike" }
+	  	            ],
+	  	            "auto": [
+	  	                { no: "*", name: "Sorry no Workshops are available for auto" }
+	  	            ]
+	  	        },
+	  	        "5": {
+	  	            "car": [
+	  	                { no: 1, name: "Marikar Honda Service" },
+	  	                { no: 2, name: "Maruti Suzuki Service" }
+	  	            ],
+	  	            "bike": [
+	  	                { no: "*", name: "Sorry no Workshops are available for Bike" }
+	  	            ],
+	  	            "auto": [
+	  	                { no: "*", name: "Sorry no Workshops are available for auto" }
+	  	            ]
+	  	        }
+	  	    };
+
+	  	    document.getElementById('placeSelectEngine').addEventListener('change', filterWorkshopsEngine);
+	  	    document.getElementById('vehicleSelectEngine').addEventListener('change', filterWorkshopsEngine);
+
+	  	    function filterWorkshopsEngine() {
+	  	        const place = document.getElementById('placeSelectEngine').value;
+	  	        const vehicle = document.getElementById('vehicleSelectEngine').value;
+	  	        const table = document.getElementById('workshopTableEngine');
+	  	        const tbody = table.querySelector('tbody');
+	  	        
+	  	        tbody.innerHTML = ''; // Clear existing rows
+
+	  	        if (place && vehicle && workshops1[place] && workshops1[place][vehicle]) {
+	  	            workshops1[place][vehicle].forEach(workshop => {
+	  	                const row = document.createElement('tr');
+	  	                row.innerHTML = `<td>${workshop.no}</td><td>${workshop.name}</td>`;
+	  	                tbody.appendChild(row);
+	  	            });
+	  	            table.style.display = 'table'; // Show the table
+	  	        } else {
+	  	            const row = document.createElement('tr');
+	  	            row.innerHTML = `<td colspan="2" style="text-align: center;">No workshops available</td>`;
+	  	            tbody.appendChild(row);
+	  	            table.style.display = 'table'; // Show the table with "no data" message
+	  	        }
+	  	    }
+	  	</script>
+	  	<!-- End Script for Engine Service -->
+
+	  	<!-- Style for Engine Service -->
+	  	<style>
+	  	    .modal-content {
+	  	        display: flex;
+	  	        max-width: 1000px;
+	  	        width: 100%;
+	  	        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	  	        border-radius: 10px;
+	  	        overflow: hidden;
+	  	        font-family: Arial, sans-serif;
+	  	        justify-content: center;
+	  	        align-items: center;
+	  	        margin: 0;
+	  	    }
+	  	    .modal-header, .modal-footer {
+	  	        background-color: #ff4567;
+	  	        color: white;
+	  	    }
+	  	    .modal-header {
+	  	        border-bottom: none;
+	  	    }
+	  	    .modal-body {
+	  	        padding: 20px;
+	  	        background-color: #fff;
+	  	        width: 100%;
+	  	    }
+	  	    .modal-body .form-group {
+	  	        display: flex;
+	  	        align-items: center;
+	  	        margin-bottom: 15px;
+	  	    }
+	  	    .modal-body .form-group label {
+	  	        width: 150px;
+	  	        margin-right: 15px;
+	  	        font-weight: bold;
+	  	    }
+	  	    .modal-body .form-group select {
+	  	        flex-grow: 1;
+	  	    }
+	  	    .modal-body .table {
+	  	        margin-top: 20px;
+	  	    }
+	  	    .form-container {
+	  	        display: flex;
+	  	        flex-direction: row;
+	  	        width: 100%;
+	  	    }
+	  	    .image-container {
+	  	        flex: 1;
+	  	    }
+	  	    .form-area {
+	  	        flex: 1.5;
+	  	        padding: 30px;
+	  	    }
+	  	    .btn-secondary {
+	  	        background-color: #6c757d;
+	  	        border: none;
+	  	    }
+	  	</style>
+	  	<!-- End Style for Engine Service -->
+
   
 </body>
 
